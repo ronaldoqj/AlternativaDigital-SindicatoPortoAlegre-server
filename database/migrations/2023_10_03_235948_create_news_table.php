@@ -15,16 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('type_news', 40)->nullable()->comment('[ image | video | audio | text ]');
             $table->string('position_news', 40)->nullable()->comment('[ banner | highlights | geral ]');
-            $table->integer('id_banner_desktop')->nullable();
-            $table->integer('id_banner_mobile')->nullable();
-            $table->integer('id_image_news')->nullable();
+            $table->unsignedBigInteger('banner_desktop_id')->nullable();
+            $table->unsignedBigInteger('banner_mobile_id')->nullable();
+            $table->unsignedBigInteger('image_news_id')->nullable();
             $table->string('position_image_news', 40)->nullable()->comment('[ beforeTitle | beforeText | AfterText ]');
             $table->string('video_news', 240)->nullable();
             $table->string('position_video_news', 40)->nullable()->comment('[ beforeTitle | beforeText | AfterText ]');
-            $table->integer('id_audio_news')->nullable();
+            $table->unsignedBigInteger('audio_news_id')->nullable();
             $table->string('position_audio_news', 40)->nullable()->comment('[ beforeTitle | beforeText | AfterText ]');
-            $table->integer('id_department')->nullable();
-            $table->integer('id_bank')->nullable();
+            $table->unsignedBigInteger('department_id')->nullable();
+            $table->unsignedBigInteger('bank_id')->nullable();
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
             $table->string('topper', 240)->nullable();
@@ -39,6 +39,13 @@ return new class extends Migration
             $table->string('twitter', 240)->nullable();
             $table->string('whatsapp', 240)->nullable();
             $table->timestamps();
+
+            $table->foreign('banner_desktop_id')->references('id')->on('files');
+            $table->foreign('banner_mobile_id')->references('id')->on('files');
+            $table->foreign('image_news_id')->references('id')->on('files');
+            $table->foreign('audio_news_id')->references('id')->on('files');
+            $table->foreign('department_id')->references('id')->on('departments');
+            $table->foreign('bank_id')->references('id')->on('banks');
         });
     }
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Bank\BankController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Department\DepartmentController;
 use App\Http\Controllers\File\FileController;
+use App\Http\Controllers\News\NewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,13 @@ Route::prefix('file')->namespace('File')->middleware('auth:api')->group(function
 {
     Route::post('/add', [FileController::class, 'add']);
     Route::post('/list', [FileController::class, 'list']);
-
 });
 
+Route::prefix('news')->namespace('News')->middleware('auth:api')->group(function ()
+{
+    Route::post('/add', [NewsController::class, 'add']);
+    Route::post('/list', [NewsController::class, 'list']);
+    Route::post('/update', [NewsController::class, 'update']);
+    Route::post('/delete', [NewsController::class, 'delete']);
+    Route::post('/get-news', [NewsController::class, 'getNews']);
+});

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\File;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $test = 'test';
-    $test = '13';
-
     return view('welcome');
+});
+
+Route::get('/test', function () {
+    $files = new File();
+    $files = $files->all();
+
+    return $files;
 });

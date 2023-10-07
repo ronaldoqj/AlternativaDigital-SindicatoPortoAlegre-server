@@ -54,7 +54,7 @@ class FileController extends Controller
     public function list()
     {
         $file = new ModelFile();
-        $file = $file->all();
+        $file = $file->orderBy('id', 'desc')->get();
 
         return $file;
     }
