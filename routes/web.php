@@ -15,7 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+    $files = new File();
+    $files = $files->all();
+
+    return $files;
 });
 
 Route::get('/test', function () {

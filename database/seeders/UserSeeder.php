@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
             'profile' => 'master',
             'email' => 'marcelo.almeida@alternativadigital.com.br',
             'password' => Hash::make('123456'),
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now()->addSecond(1)
         ]);
 
         DB::table('users')->insert([
@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
             'profile' => 'administrator',
             'email' => 'administrator@administrator.com',
             'password' => Hash::make('123456'),
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now()->addSecond(2)
         ]);
 
         DB::table('users')->insert([
@@ -44,7 +44,7 @@ class UserSeeder extends Seeder
             'profile' => 'normal',
             'email' => 'normal@normal.com.br',
             'password' => Hash::make('123456'),
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now()->addSecond(3)
         ]);
     }
 }

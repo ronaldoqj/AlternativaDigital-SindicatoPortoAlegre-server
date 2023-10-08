@@ -23,49 +23,49 @@ class DepartmentSeeder extends Seeder
         DB::table('departments')->insert([
             'name' => 'Saúde e condições de trabalho',
             'description' => 'Departamento da Saúde e condições de trabalho',
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now()->addSecond(1)
         ]);
 
         DB::table('departments')->insert([
             'name' => 'Juventude e Gênero',
             'description' => 'Departamento da Juventude e Gênero',
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now()->addSecond(2)
         ]);
 
         DB::table('departments')->insert([
             'name' => 'Diversidade e Combate ao Racismo',
             'description' => 'Departamento da Diversidade e Combate ao Racismo',
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now()->addSecond(3)
         ]);
 
         DB::table('departments')->insert([
             'name' => 'Esporte e Lazer',
             'description' => 'Departamento do Esporte e Lazer',
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now()->addSecond(4)
         ]);
 
         DB::table('departments')->insert([
             'name' => 'Cultura e Sustentabilidade',
             'description' => 'Departamento da Cultura e Sustentabilidade',
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now()->addSecond(5)
         ]);
 
         DB::table('departments')->insert([
             'name' => 'Aposentados e Seguridade Social',
             'description' => 'Departamento de Aposentados e Seguridade Social',
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now()->addSecond(6)
         ]);
 
         DB::table('departments')->insert([
             'name' => 'Formação',
             'description' => 'Departamento de Formação',
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now()->addSecond(7)
         ]);
 
         DB::table('departments')->insert([
             'name' => 'Financeiras e terceirizados do ramo financeiro',
             'description' => 'Departamento das Financeiras e terceirizados do ramo financeiro',
-            'created_at' => Carbon::now()
+            'created_at' => Carbon::now()->addSecond(8)
         ]);
     }
 }
