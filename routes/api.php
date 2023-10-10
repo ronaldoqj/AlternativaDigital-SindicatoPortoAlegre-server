@@ -9,6 +9,9 @@ use App\Http\Controllers\Department\DepartmentController;
 use App\Http\Controllers\File\FileController;
 use App\Http\Controllers\News\NewsController;
 
+// Site
+use App\Http\Controllers\Site\News\NewsController as SiteNewsController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -66,4 +69,17 @@ Route::prefix('news')->namespace('News')->middleware('auth:api')->group(function
     Route::post('/update', [NewsController::class, 'update']);
     Route::post('/delete', [NewsController::class, 'delete']);
     Route::post('/get-news', [NewsController::class, 'getNews']);
+});
+
+
+Route::prefix('site/news')->namespace('Site/News')->group(function ()
+{
+    Route::post('/list-home', [SiteNewsController::class, 'listHome']);
+
+    // Route::post('/list', function () {
+    //     $files = new File();
+    //     $files = $files->all();
+
+    //     return $files;
+    // });
 });

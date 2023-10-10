@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
             'name' => 'Marcelo Silveira de Almeida',
             'profile' => 'master',
             'email' => 'marcelo.almeida@alternativadigital.com.br',
-            'password' => Hash::make('123456'),
+            'password' => Hash::make('Master123!@##'),
             'created_at' => Carbon::now()->addSecond(1)
         ]);
 
@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
             'name' => 'Administrator',
             'profile' => 'administrator',
             'email' => 'administrator@administrator.com',
-            'password' => Hash::make('123456'),
+            'password' => Hash::make('Master!@#123'),
             'created_at' => Carbon::now()->addSecond(2)
         ]);
 
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
             'name' => 'Normal',
             'profile' => 'normal',
             'email' => 'normal@normal.com.br',
-            'password' => Hash::make('123456'),
+            'password' => Hash::make('Master!@#@@'),
             'created_at' => Carbon::now()->addSecond(3)
         ]);
     }

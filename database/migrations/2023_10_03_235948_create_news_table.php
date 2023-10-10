@@ -23,8 +23,6 @@ return new class extends Migration
             $table->string('position_video_news', 40)->nullable()->comment('[ beforeTitle | beforeText | AfterText ]');
             $table->unsignedBigInteger('audio_news_id')->nullable();
             $table->string('position_audio_news', 40)->nullable()->comment('[ beforeTitle | beforeText | AfterText ]');
-            $table->unsignedBigInteger('department_id')->nullable();
-            $table->unsignedBigInteger('bank_id')->nullable();
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
             $table->string('topper', 240)->nullable();
@@ -44,8 +42,6 @@ return new class extends Migration
             $table->foreign('banner_mobile_id')->references('id')->on('files');
             $table->foreign('image_news_id')->references('id')->on('files');
             $table->foreign('audio_news_id')->references('id')->on('files');
-            $table->foreign('department_id')->references('id')->on('departments');
-            $table->foreign('bank_id')->references('id')->on('banks');
         });
     }
 
