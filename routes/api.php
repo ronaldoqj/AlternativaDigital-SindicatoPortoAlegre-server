@@ -58,8 +58,10 @@ Route::prefix('bank')->namespace('Bank')->middleware('auth:api')->group(function
 
 Route::prefix('file')->namespace('File')->middleware('auth:api')->group(function ()
 {
-    Route::post('/add', [FileController::class, 'add']);
     Route::post('/list', [FileController::class, 'list']);
+    Route::post('/add', [FileController::class, 'add']);
+    Route::post('/update', [FileController::class, 'update']);
+    Route::post('/delete', [FileController::class, 'delete']);
 });
 
 Route::prefix('news')->namespace('News')->middleware('auth:api')->group(function ()

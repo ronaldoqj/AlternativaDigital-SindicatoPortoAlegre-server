@@ -135,6 +135,15 @@ class NewsController extends Controller
     public function delete(Request $request)
     {
         $id = $request->input('id');
+
+        $departments = new DepartmentNews();
+        $departments = $departments->where('news_id', $id);
+        $departments->delete();
+
+        $banks = new BankNews();
+        $banks = $banks->where('news_id', $id);
+        $banks->delete();
+
         $news = new News();
         $news = $news->find($id);
         $news->delete();
