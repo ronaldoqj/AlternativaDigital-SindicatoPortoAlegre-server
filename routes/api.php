@@ -76,7 +76,10 @@ Route::prefix('news')->namespace('News')->middleware('auth:api')->group(function
 
 Route::prefix('site/news')->namespace('Site/News')->group(function ()
 {
+    Route::post('/list', [SiteNewsController::class, 'list']);
     Route::post('/list-home', [SiteNewsController::class, 'listHome']);
+    Route::post('/related', [SiteNewsController::class, 'related']);
+    Route::post('/get', [SiteNewsController::class, 'get']);
 
     // Route::post('/list', function () {
     //     $files = new File();

@@ -118,7 +118,7 @@ class NewsController extends Controller
 
     public function list()
     {
-        $news = News::with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'department', 'bank', 'departments', 'banks')->orderBy('id', 'desc')->get();
+        $news = News::with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'department', 'bank', 'departments', 'banks')->orderBy('created_at', 'desc')->get();
         return $news;
     }
 

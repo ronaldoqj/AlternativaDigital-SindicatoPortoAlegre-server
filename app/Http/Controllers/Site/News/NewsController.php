@@ -14,21 +14,37 @@ class NewsController extends Controller
         // $this->middleware('auth:api'
     }
 
+    public function list(Request $request)
+    {
+        $page = $request->input('page');
+        $perPage = $request->input('perPage');
+        $news = new News();
+        $news = News::orderBy('created_at', 'desc')
+                    ->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
+                    ->where('position_news', 'geral')
+                    ->simplePaginate($perPage);
+        // $news = News::where('position_news', 'geral')
+        //             // ->orderBy('id', 'asc')
+        //             ->simplePaginate($perPage);
+
+        return $news;
+    }
+
     public function listHome()
     {
         $news = new News();
-        $banners = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'department', 'bank')
+        $banners = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
                         ->where('position_news', 'banner')
-                        ->orderBy('id', 'desc')
+                        ->orderBy('created_at', 'desc')
                         ->get();
-        $highlights = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'department', 'bank')
+        $highlights = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
                            ->where('position_news', 'highlights')
-                           ->orderBy('id', 'desc')
+                           ->orderBy('created_at', 'desc')
                            ->limit(3)
                            ->get();
-        $geral = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'department', 'bank')
+        $geral = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
                       ->where('position_news', 'geral')
-                      ->orderBy('id', 'desc')
+                      ->orderBy('created_at', 'desc')
                       ->limit(6)
                       ->get();
         $return = new stdClass();
@@ -39,12 +55,27 @@ class NewsController extends Controller
         return $return;
     }
 
-    public function getNews(Request $request)
+    public function related(Request $request)
+    {
+        $perPage = $request->input('perPage');
+        $notNews = $request->input('notNews');
+        $notNews = News::find($request->input('notNews'));
+        $news = News::with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
+                    ->where('topper', $notNews->topper)
+                    ->whereNotIn('id', [$notNews->id])
+                    ->orderBy('created_at', 'desc')
+                    ->limit($perPage)
+                    ->get();
+
+        return $news;
+    }
+
+    public function get(Request $request)
     {
         $id = $request->input('id');
 
-        $news = new News();
-        $news = $news->where('id', $id)->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'department', 'bank')->first();
+        // $news = News::find($id)->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'departments', 'banks');
+        $news = News::where('id', $id)->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'departments', 'banks')->first();
 
         return $news;
     }
