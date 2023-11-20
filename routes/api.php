@@ -8,6 +8,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Department\DepartmentController;
 use App\Http\Controllers\File\FileController;
 use App\Http\Controllers\News\NewsController;
+use App\Http\Controllers\Site\Unionize\UnionizeController;
 
 // Site
 use App\Http\Controllers\Site\News\NewsController as SiteNewsController;
@@ -47,7 +48,6 @@ Route::prefix('user')->namespace('User')->middleware('auth:api')->group(function
 Route::prefix('department')->namespace('Department')->middleware('auth:api')->group(function ()
 {
     Route::post('/list', [DepartmentController::class, 'list']);
-
 });
 
 Route::prefix('bank')->namespace('Bank')->middleware('auth:api')->group(function ()
@@ -73,12 +73,12 @@ Route::prefix('news')->namespace('News')->middleware('auth:api')->group(function
     Route::post('/get-news', [NewsController::class, 'getNews']);
 });
 
-
 Route::prefix('site/news')->namespace('Site/News')->group(function ()
 {
     Route::post('/list', [SiteNewsController::class, 'list']);
     Route::post('/list-home', [SiteNewsController::class, 'listHome']);
     Route::post('/related', [SiteNewsController::class, 'related']);
+    Route::post('/related-department', [SiteNewsController::class, 'relatedDepartment']);
     Route::post('/get', [SiteNewsController::class, 'get']);
 
     // Route::post('/list', function () {
@@ -87,4 +87,12 @@ Route::prefix('site/news')->namespace('Site/News')->group(function ()
 
     //     return $files;
     // });
+});
+
+Route::prefix('site/unionize')->namespace('Site/Unionize')->group(function ()
+{
+    Route::post('/register', [UnionizeController::class, 'register']);
+    Route::post('/register-pdf-file', [UnionizeController::class, 'registerPdfFile']);
+    Route::post('/get-register-by-email', [UnionizeController::class, 'getByEmail']);
+    // Route::post('/get', [SiteNewsController::class, 'get']);
 });

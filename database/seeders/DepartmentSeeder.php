@@ -67,5 +67,11 @@ class DepartmentSeeder extends Seeder
             'description' => 'Departamento das Financeiras e terceirizados do ramo financeiro',
             'created_at' => Carbon::now()->addSecond(8)
         ]);
+
+        DB::table('departments')->insert([
+            'name' => 'Comunicação',
+            'description' => 'Departamento de Comunicação',
+            'created_at' => Carbon::now()->addSecond(9)
+        ]);
     }
 }

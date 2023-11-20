@@ -16,13 +16,19 @@ class NewsController extends Controller
 
     public function list(Request $request)
     {
+        $departmentId = $request->input('departmentId') ?? null;
         $page = $request->input('page');
         $perPage = $request->input('perPage');
-        $news = new News();
-        $news = News::orderBy('created_at', 'desc')
-                    ->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
-                    ->where('position_news', 'geral')
-                    ->simplePaginate($perPage);
+        $news = News::orderBy('created_at', 'desc');
+        $news = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews');
+        // $news = $news->where('position_news', 'geral');
+        if ($departmentId) {
+            $news = $news->whereHas('departments', function ($query) use ($departmentId) {
+                $query->where('departments.id', $departmentId);
+            });
+        }
+        $news = $news->paginate($perPage);
+        // ->simplePaginate($perPage);
         // $news = News::where('position_news', 'geral')
         //             // ->orderBy('id', 'asc')
         //             ->simplePaginate($perPage);
@@ -65,6 +71,23 @@ class NewsController extends Controller
                     ->whereNotIn('id', [$notNews->id])
                     ->orderBy('created_at', 'desc')
                     ->limit($perPage)
+                    ->get();
+
+        return $news;
+    }
+
+    public function relatedDepartment(Request $request)
+    {
+        // $perPage = $request->input('perPage');
+        // $notNews = $request->input('notNews');
+        $departmentId = $request->input('department_id');
+        $limit = $request->input('limit');
+        $news = News::with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'departments')
+                    ->whereHas('departments', function ($query) use ($departmentId) {
+                        $query->where('departments.id', $departmentId);
+                    })
+                    ->orderBy('created_at', 'desc')
+                    ->limit($limit)
                     ->get();
 
         return $news;

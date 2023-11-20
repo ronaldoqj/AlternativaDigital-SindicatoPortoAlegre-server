@@ -16,8 +16,11 @@ return new class extends Migration
 
             $table->string('name', 140);
             $table->string('description', 240)->nullable();
+            $table->unsignedBigInteger('image_id')->nullable();
 
             $table->timestamps();
+
+            $table->foreign('image_id')->references('id')->on('files');
         });
     }
 
