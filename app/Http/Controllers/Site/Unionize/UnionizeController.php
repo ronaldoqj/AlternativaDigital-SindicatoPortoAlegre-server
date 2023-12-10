@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Unionized;
 use App\Models\UnionizedFile;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class UnionizeController extends Controller
@@ -25,10 +26,10 @@ class UnionizeController extends Controller
 
     public function register(Request $request)
     {
-        $email = $request->input('personalData')['email']['value'];
+        $cpf = preg_replace('/[^0-9]/', '', $request->input('personalData')['cpf']['value']);
         $unionized = new Unionized();
 
-        $checkUnionized = Unionized::where('email', $email)->first();
+        $checkUnionized = Unionized::where('cpf', $cpf)->first();
         if ($checkUnionized) {
             if ($checkUnionized->status !== 'started') {
                 abort(500, 'Not possible update register');
@@ -51,9 +52,10 @@ class UnionizeController extends Controller
         $unionized->cpf = preg_replace('/[^0-9]/', '', $request->input('personalData')['cpf']['value']);
         $unionized->rg = $request->input('personalData')['rg']['value'];
         $unionized->birth = $this->convertToValidDate($request->input('personalData')['birth']['value']);
-        $unionized->sex = $request->input('personalData')['sex']['value'];
+        $unionized->gender = $request->input('personalData')['gender']['value']['value'];
+        $unionized->color = $request->input('personalData')['color']['value']['value'];
         $unionized->marital_status = $request->input('personalData')['maritalStatus']['value'];
-        $unionized->email = $email;
+        $unionized->email = $request->input('personalData')['email']['value'];
         $unionized->phone = preg_replace('/[^0-9]/', '', $request->input('personalData')['phone']['value']);
         $unionized->cellphone = preg_replace('/[^0-9]/', '', $request->input('personalData')['cellphone']['value']);
         $unionized->home_address = $request->input('personalData')['homeAddress']['value'];
@@ -78,9 +80,9 @@ class UnionizeController extends Controller
         if (! $request->file('pdf_file')) {
             abort(500, 'File not found');
         }
-        $email = $request->input('email');
+        $cpf = $request->input('cpf');
         $unionized = new Unionized();
-        $findUnionized = $unionized->where('email', $email)->where('status', 'started')->first();
+        $findUnionized = $unionized->where('cpf', $cpf)->where('status', 'started')->first();
         if (!$findUnionized) {
             abort(500, 'Not found');
         }
@@ -142,15 +144,55 @@ class UnionizeController extends Controller
         return $file;
     }
 
-    public function getByEmail(Request $request)
+    public function getByCpf(Request $request)
     {
-        $email = $request->input('email');
+        $cpf = preg_replace('/[^0-9]/', '', $request->input('cpf'));
         $unionized = new Unionized();
-        $findUnionized = $unionized->where('email', $email)->where('status', 'started')->first();
+        $findUnionized = $unionized->where('cpf', $cpf)->where('status', 'started')->first();
         if (!$findUnionized) {
             abort(500, 'Not found');
         }
 
         return $findUnionized;
     }
+
+    public function print(Request $request, string $cpf)
+    {
+        $unionized = new Unionized();
+        $unionized = $unionized->where('cpf', $cpf)->where('status', 'started')->get()->toArray()[0] ?? null;
+        // $unionized = $unionized->where('cpf', $cpf)->where('status', 'started')->first();
+        if (!$unionized) {
+            abort(500, 'Not found');
+        }
+
+        $commercial_phone = $unionized['commercial_phone'];
+        if (strlen($commercial_phone) >= 10)
+            $unionized['commercial_phone'] = "({$commercial_phone[0]}{$commercial_phone[1]}) {$commercial_phone[2]}{$commercial_phone[3]}{$commercial_phone[4]}{$commercial_phone[5]} {$commercial_phone[6]}{$commercial_phone[7]}{$commercial_phone[8]}{$commercial_phone[9]}";
+        $cpf = $unionized['cpf'];
+        if (strlen($cpf) >= 11)
+            $unionized['cpf'] = "{$cpf[0]}{$cpf[1]}{$cpf[2]}.{$cpf[3]}{$cpf[4]}{$cpf[5]}.{$cpf[6]}{$cpf[7]}{$cpf[8]}.{$cpf[9]}{$cpf[10]}";
+        $birth = $unionized['birth'];
+        if (strlen($birth) >= 10)
+            $birth = explode('-', $birth);
+            $unionized['birth'] = "{$birth[2]}/{$birth[1]}/{$birth[0]}";
+        $phone = $unionized['phone'];
+        if (strlen($phone) >= 10)
+            $unionized['phone'] = "({$phone[0]}{$phone[1]}) {$phone[2]}{$phone[3]}{$phone[4]}{$phone[5]} {$phone[6]}{$phone[7]}{$phone[8]}{$phone[9]}";
+        $cellphone = $unionized['cellphone'];
+        if (strlen($cellphone) >= 11)
+            $unionized['cellphone'] = "({$cellphone[0]}{$cellphone[1]}) {$cellphone[2]}{$cellphone[3]}{$cellphone[4]}{$cellphone[5]}{$cellphone[6]} {$cellphone[7]}{$cellphone[8]}{$cellphone[9]}{$cellphone[10]}";
+
+        $pdf = Pdf::setPaper('A4')
+        //          ->setOption(['dpi' => 150])
+                    ->setOption(['dpi' => 300])
+                    ->loadView('unionize', $unionized);
+        $pdf->render();
+        // preg_replace('/[^a-zA-Z0-9]/', '_', $string)
+        $file = preg_replace('/[^a-zA-Z0-9]/', '_', $unionized['name']);
+        $fileName = "Sindbancarios_-_Ficha_de_Sindicalização_-_{$file}.pdf";
+        return $pdf->download($fileName);
+        // return view('unionize');
+    }
 }
+
+//

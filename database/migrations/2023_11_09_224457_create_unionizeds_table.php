@@ -29,8 +29,10 @@ return new class extends Migration
             $table->string('name', 140)->nullable();
             $table->string('cpf', 14)->nullable();
             $table->string('rg', 20)->nullable();
+            $table->string('issuing_authority', 20)->nullable();
             $table->date('birth')->nullable();
-            $table->string('sex', 20)->nullable();
+            $table->string('gender', 20)->nullable();
+            $table->string('color', 20)->nullable();
             $table->string('marital_status', 40)->nullable();
             $table->string('email', 140)->nullable();
             $table->string('phone', 30)->nullable();

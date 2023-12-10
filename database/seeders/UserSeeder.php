@@ -46,5 +46,45 @@ class UserSeeder extends Seeder
             'password' => Hash::make('Master!@#@@'),
             'created_at' => Carbon::now()->addSecond(3)
         ]);
+
+        /**
+         * Usuários do cliente
+         */
+
+        //  (51)992372207
+        DB::table('users')->insert([
+            'name' => 'Aline Adolphs',
+            'profile' => 'normal',
+            'email' => 'alinedolphs@gmail.com',
+            'password' => Hash::make('ALINE01122023#aline'),
+            'created_at' => Carbon::now()->addSecond(3)
+        ]);
+
+        // (51)99920-6484
+        DB::table('users')->insert([
+            'name' => 'Amanda Zulke',
+            'profile' => 'normal',
+            'email' => 'amanda@sindbancarios.org.br',
+            'password' => Hash::make('AMANDA01122023#amanda'),
+            'created_at' => Carbon::now()->addSecond(3)
+        ]);
+
+        // (51)99689-7645
+        DB::table('users')->insert([
+            'name' => 'Camila Kila',
+            'profile' => 'normal',
+            'email' => 'camila@sindbancarios.org.br',
+            'password' => Hash::make('CAMILA01122023#camila'),
+            'created_at' => Carbon::now()->addSecond(3)
+        ]);
+
+        // (51)997860085
+        DB::table('users')->insert([
+            'name' => 'Laís Escher',
+            'profile' => 'normal',
+            'email' => 'soulaisescher@gmail.com',
+            'password' => Hash::make('LAIS01122023#lais'),
+            'created_at' => Carbon::now()->addSecond(3)
+        ]);
     }
 }

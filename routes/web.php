@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // return view('welcome');
+    return view('unionize');
     $files = new File();
     $files = $files->all();
 
