@@ -8,7 +8,10 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Department\DepartmentController;
 use App\Http\Controllers\File\FileController;
 use App\Http\Controllers\News\NewsController;
+use App\Http\Controllers\Agenda\AgendaController;
+use App\Http\Controllers\Site\Search\SearchController;
 use App\Http\Controllers\Site\Unionize\UnionizeController;
+use App\Http\Controllers\Site\Agenda\AgendaController as SiteAgendaController;
 
 // Site
 use App\Http\Controllers\Site\News\NewsController as SiteNewsController;
@@ -64,6 +67,15 @@ Route::prefix('file')->namespace('File')->middleware('auth:api')->group(function
     Route::post('/delete', [FileController::class, 'delete']);
 });
 
+Route::prefix('agenda')->namespace('Agenda')->middleware('auth:api')->group(function ()
+{
+    Route::post('/add', [AgendaController::class, 'add']);
+    Route::post('/list', [AgendaController::class, 'list']);
+    Route::post('/update', [AgendaController::class, 'update']);
+    Route::post('/delete', [AgendaController::class, 'delete']);
+    Route::post('/get-agenda', [AgendaController::class, 'getAgenda']);
+});
+
 Route::prefix('news')->namespace('News')->middleware('auth:api')->group(function ()
 {
     Route::post('/add', [NewsController::class, 'add']);
@@ -89,10 +101,26 @@ Route::prefix('site/news')->namespace('Site/News')->group(function ()
     // });
 });
 
+Route::prefix('site/agenda')->namespace('Site/Agenda')->group(function ()
+{
+    Route::post('/list', [SiteAgendaController::class, 'list']);
+    Route::post('/list-home', [SiteAgendaController::class, 'listHome']);
+    Route::post('/related', [SiteAgendaController::class, 'related']);
+    Route::post('/get', [SiteAgendaController::class, 'get']);
+});
+
+Route::prefix('site/search')->namespace('Site/Search')->group(function ()
+{
+    Route::post('/list', [SearchController::class, 'list']);
+    Route::post('/list-banks', [SearchController::class, 'listBanks']);
+});
+
 Route::prefix('site/unionize')->namespace('Site/Unionize')->group(function ()
 {
     Route::post('/register', [UnionizeController::class, 'register']);
     Route::post('/register-pdf-file', [UnionizeController::class, 'registerPdfFile']);
-    Route::post('/get-register-by-email', [UnionizeController::class, 'getByEmail']);
+    Route::post('/get-register-by-cpf', [UnionizeController::class, 'getByCpf']);
+    Route::post('/print', [UnionizeController::class, 'print']);
+    Route::get('/print/{cpf}', [UnionizeController::class, 'print']);
     // Route::post('/get', [SiteNewsController::class, 'get']);
 });
