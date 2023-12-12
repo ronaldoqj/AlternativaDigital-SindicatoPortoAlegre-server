@@ -16,6 +16,9 @@ return new class extends Migration
 
             $table->unsignedBigInteger('image_id')->nullable();
             $table->unsignedBigInteger('card_image_id')->nullable();
+            $table->date('start_date')->nullable();
+            $table->char('has_intermediaries_dates', 1)->default('n')->comment('[ y | n ]');
+            $table->date('end_date')->nullable();
             $table->string('topper', 240)->nullable();
             $table->string('title', 240)->nullable();
             $table->string('call', 240)->nullable();

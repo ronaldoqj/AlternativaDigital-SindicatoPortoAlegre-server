@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Site\Agenda;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Agenda;
+use Illuminate\Support\Collection;
+use DateTime;
 
 class AgendaController extends Controller
 {
@@ -15,9 +17,23 @@ class AgendaController extends Controller
 
     public function list(Request $request)
     {
+        $now = now();
+        $dataAtual = new DateTime();
+        // Formata a data para exibir apenas a parte da data (sem a hora)
+        $now = $dataAtual->format('Y-m-d');
+        // Exibe a data formatada
+
         $agenda = Agenda::with('image', 'cardImage', 'scheduledDates')
-                        ->orderBy('created_at', 'desc')
-                        ->get();
+                        ->select(
+                            'agendas.*',
+                            // 'agenda_dates.scheduled_date AS scheduled'
+                        )
+                        // ->join('agenda_dates', 'agenda_dates.agenda_id', '=', 'agendas.id')
+                        ->where('agendas.end_date', '>=', $now)
+                        ->orderBy('start_date', 'ASC')
+                        ->distinct()
+                        ->get()->toArray();
+
         return $agenda;
     }
 
