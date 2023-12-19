@@ -23,10 +23,22 @@ class AgendaController extends Controller
         $agenda->title = $request->input('title') ?? null;
         $agenda->call = $request->input('call') ?? null;
         $agenda->text = $request->input('text') ?? null;
+        $scheduledDates = $request->input('scheduledDate') ?? [];
+
+        if (count($scheduledDates))
+        {
+            $agenda->start_date = $scheduledDates[0];
+
+            if (count($scheduledDates) > 1) {
+                $agenda->end_date = $scheduledDates[count($scheduledDates) - 1];
+            }
+
+            if (count($scheduledDates) > 2) {
+                $agenda->has_intermediaries_dates = 'y';
+            }
+        }
 
         $agenda->save();
-
-        $scheduledDates = $request->input('scheduledDate') ?? [];
 
         foreach ($scheduledDates as $value)
         {
@@ -42,10 +54,10 @@ class AgendaController extends Controller
     public function update(Request $request)
     {
         $id = $request->input('id');
-
         $scheduledDates = new AgendaDate();
         $dates = $scheduledDates->where('agenda_id', $id);
         $dates->delete();
+        $scheduledDates = $request->input('scheduledDate') ?? [];
 
         $agenda = new Agenda();
         $agenda = $agenda->find($id);
@@ -56,9 +68,20 @@ class AgendaController extends Controller
         $agenda->call = $request->input('call') ?? null;
         $agenda->text = $request->input('text') ?? null;
 
-        $agenda->save();
+        if (count($scheduledDates))
+        {
+            $agenda->start_date = $scheduledDates[0];
 
-        $scheduledDates = $request->input('scheduledDate') ?? [];
+            if (count($scheduledDates) > 1) {
+                $agenda->end_date = $scheduledDates[count($scheduledDates) - 1];
+            }
+
+            if (count($scheduledDates) > 2) {
+                $agenda->has_intermediaries_dates = 'y';
+            }
+        }
+
+        $agenda->save();
 
         foreach ($scheduledDates as $value)
         {
