@@ -25,5 +25,8 @@ class DatabaseSeeder extends Seeder
         $this->call(NewsSeeder::class);
         $this->call(BankNewsSeeder::class);
         $this->call(DepartmentNewsSeeder::class);
+        $this->call(PagesSeeder::class);
+        $this->call(CategoryAgreementConventionSeeder::class);
+        $this->call(CategoryPublicNoticeSeeder::class);
     }
 }

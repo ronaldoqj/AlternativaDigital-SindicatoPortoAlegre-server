@@ -4,14 +4,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Bank\BankController;
+use App\Http\Controllers\Page\PageController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Department\DepartmentController;
 use App\Http\Controllers\File\FileController;
 use App\Http\Controllers\News\NewsController;
 use App\Http\Controllers\Agenda\AgendaController;
+use App\Http\Controllers\Campaign\CampaignController;
+use App\Http\Controllers\Video\VideoController;
+use App\Http\Controllers\AgreementConvention\AgreementConventionController;
+use App\Http\Controllers\CategoryAgreementConvention\CategoryAgreementConventionController;
+use App\Http\Controllers\PublicNotice\PublicNoticeController;
+use App\Http\Controllers\CategoryPublicNotice\CategoryPublicNoticeController;
 use App\Http\Controllers\Site\Search\SearchController;
 use App\Http\Controllers\Site\Unionize\UnionizeController;
 use App\Http\Controllers\Site\Agenda\AgendaController as SiteAgendaController;
+use App\Http\Controllers\Site\Video\VideoController as SiteVideoController;
 
 // Site
 use App\Http\Controllers\Site\News\NewsController as SiteNewsController;
@@ -35,6 +43,7 @@ use App\Http\Controllers\Site\News\NewsController as SiteNewsController;
 Route::prefix('auth')->namespace('Auth')->group(function ()
 {
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/get-user', [AuthController::class, 'me']);
     // Route::post('/login', function (Request $request) {
     //     return $request;
     // });
@@ -56,7 +65,11 @@ Route::prefix('department')->namespace('Department')->middleware('auth:api')->gr
 Route::prefix('bank')->namespace('Bank')->middleware('auth:api')->group(function ()
 {
     Route::post('/list', [BankController::class, 'list']);
+});
 
+Route::prefix('page')->namespace('Page')->middleware('auth:api')->group(function ()
+{
+    Route::post('/list', [PageController::class, 'list']);
 });
 
 Route::prefix('file')->namespace('File')->middleware('auth:api')->group(function ()
@@ -74,6 +87,44 @@ Route::prefix('agenda')->namespace('Agenda')->middleware('auth:api')->group(func
     Route::post('/update', [AgendaController::class, 'update']);
     Route::post('/delete', [AgendaController::class, 'delete']);
     Route::post('/get-agenda', [AgendaController::class, 'getAgenda']);
+});
+
+Route::prefix('campaign')->namespace('Campaign')->middleware('auth:api')->group(function ()
+{
+    Route::post('/add', [CampaignController::class, 'add']);
+    Route::post('/list', [CampaignController::class, 'list']);
+    Route::post('/update', [CampaignController::class, 'update']);
+    Route::post('/delete', [CampaignController::class, 'delete']);
+    Route::post('/get', [CampaignController::class, 'get']);
+});
+
+Route::prefix('video')->namespace('Video')->middleware('auth:api')->group(function ()
+{
+    Route::post('/add', [VideoController::class, 'add']);
+    Route::post('/list', [VideoController::class, 'list']);
+    Route::post('/update', [VideoController::class, 'update']);
+    Route::post('/delete', [VideoController::class, 'delete']);
+    Route::post('/get', [VideoController::class, 'get']);
+});
+
+Route::prefix('agreement-convention')->namespace('AgreementConvention')->middleware('auth:api')->group(function ()
+{
+    Route::post('/add', [AgreementConventionController::class, 'add']);
+    Route::post('/list', [AgreementConventionController::class, 'list']);
+    Route::post('/list-categories', [CategoryAgreementConventionController::class, 'list']);
+    Route::post('/update', [AgreementConventionController::class, 'update']);
+    Route::post('/delete', [AgreementConventionController::class, 'delete']);
+    Route::post('/get', [AgreementConventionController::class, 'get']);
+});
+
+Route::prefix('public-notice')->namespace('PublicNotice')->middleware('auth:api')->group(function ()
+{
+    Route::post('/add', [PublicNoticeController::class, 'add']);
+    Route::post('/list', [PublicNoticeController::class, 'list']);
+    Route::post('/list-categories', [CategoryPublicNoticeController::class, 'list']);
+    Route::post('/update', [PublicNoticeController::class, 'update']);
+    Route::post('/delete', [PublicNoticeController::class, 'delete']);
+    Route::post('/get', [PublicNoticeController::class, 'get']);
 });
 
 Route::prefix('news')->namespace('News')->middleware('auth:api')->group(function ()
@@ -107,6 +158,11 @@ Route::prefix('site/agenda')->namespace('Site/Agenda')->group(function ()
     Route::post('/list-home', [SiteAgendaController::class, 'listHome']);
     Route::post('/related', [SiteAgendaController::class, 'related']);
     Route::post('/get', [SiteAgendaController::class, 'get']);
+});
+
+Route::prefix('site/video')->namespace('Site/Video')->group(function ()
+{
+    Route::post('/list', [SiteVideoController::class, 'list']);
 });
 
 Route::prefix('site/search')->namespace('Site/Search')->group(function ()

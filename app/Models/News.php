@@ -42,7 +42,7 @@ class News extends Model
 
     public function departments(): BelongsToMany
     {
-        return $this->belongsToMany(Department::class)->using(DepartmentNews::class)->withPivot('created_at');;
+        return $this->belongsToMany(Department::class)->using(DepartmentNews::class)->withPivot('created_at');
     }
 
     public function banks(): BelongsToMany

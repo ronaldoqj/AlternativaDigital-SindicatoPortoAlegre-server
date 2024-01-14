@@ -19,8 +19,11 @@ class NewsController extends Controller
     public function add(Request $request)
     {
         $news = new News();
+        $draft = $request->input('draft') ?? false;
+
         $news->type_news = $request->input('typeNews') ?? null;
         $news->position_news = $request->input('positionNews') ?? null;
+        $news->draft = $draft ? 'y' : 'n';
         $news->start_date = $request->input('startDate') ?? null;
         $news->end_date = $request->input('endDate') ?? null;
         $news->banner_desktop_id = $request->input('bannerDesktop')['id'] ?? null;
@@ -63,6 +66,7 @@ class NewsController extends Controller
     public function update(Request $request)
     {
         $id = $request->input('id');
+        $draft = $request->input('draft') ?? false;
 
         $departments = new DepartmentNews();
         $departments = $departments->where('news_id', $id);
@@ -76,6 +80,7 @@ class NewsController extends Controller
         $news = $news->find($id);
         $news->type_news = $request->input('typeNews') ?? null;
         $news->position_news = $request->input('positionNews') ?? null;
+        $news->draft = $draft ? 'y' : 'n';
         $news->start_date = $request->input('startDate') ?? null;
         $news->end_date = $request->input('endDate') ?? null;
         $news->banner_desktop_id = $request->input('bannerDesktop')['id'] ?? null;
@@ -110,8 +115,6 @@ class NewsController extends Controller
             $banksIDs = Arr::pluck($banks, 'value');
             $news->banks()->attach($banksIDs);
         }
-
-
 
         return json_encode($news);
     }

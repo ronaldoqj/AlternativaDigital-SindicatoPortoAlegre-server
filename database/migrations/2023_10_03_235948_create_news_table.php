@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('type_news', 40)->nullable()->comment('[ image | video | audio | text ]');
             $table->string('position_news', 40)->nullable()->comment('[ banner | highlights | geral ]');
+            $table->char('draft', 1)->default('n')->comment('[ n | y ]');
             $table->unsignedBigInteger('banner_desktop_id')->nullable();
             $table->unsignedBigInteger('banner_mobile_id')->nullable();
             $table->unsignedBigInteger('image_news_id')->nullable();

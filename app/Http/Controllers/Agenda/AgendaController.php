@@ -28,6 +28,7 @@ class AgendaController extends Controller
         if (count($scheduledDates))
         {
             $agenda->start_date = $scheduledDates[0];
+            $agenda->end_date = $scheduledDates[0];
 
             if (count($scheduledDates) > 1) {
                 $agenda->end_date = $scheduledDates[count($scheduledDates) - 1];
@@ -71,6 +72,7 @@ class AgendaController extends Controller
         if (count($scheduledDates))
         {
             $agenda->start_date = $scheduledDates[0];
+            $agenda->end_date = $scheduledDates[0];
 
             if (count($scheduledDates) > 1) {
                 $agenda->end_date = $scheduledDates[count($scheduledDates) - 1];
