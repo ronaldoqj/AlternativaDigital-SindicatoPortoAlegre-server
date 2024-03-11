@@ -15,18 +15,27 @@ class VideoController extends Controller
 
     public function list(Request $request)
     {
-        $agenda = Video::with('image', 'pages')
-                        ->select(
-                            'videos.*',
-                            // 'agenda_dates.scheduled_date AS scheduled'
-                        )
-                        // ->join('agenda_dates', 'agenda_dates.agenda_id', '=', 'agendas.id')
+        $page = $request->input('page') ?? null;
 
-                        // ->where('videos.draft', '==', 'n')
-                        ->orderBy('created_at', 'ASC')
-                        ->distinct()
-                        ->get()->toArray();
+        $query = new Video();
+        // $query = $query->where(function ($query) {
+        //     $query->where('draft', '=', 'n')
+        //           ->orWhere('pin_to_home', '=', 'y');
+        // });
+        $query = $query->with('image', 'pages');
+        $query = $query->where('draft', 'n');
+        $query = $query->orderBy('pin_to_home', 'desc')->orderBy('created_at', 'DESC');
 
-        return $agenda;
+        if ($page) {
+            $query = $query->whereHas('pages', function ($query) use ($page) {
+                $query->where('pages.id', $page);
+            });
+        }
+        // ->join('agenda_dates', 'agenda_dates.agenda_id', '=', 'agendas.id')
+
+        // ->where('videos.draft', '==', 'n')
+        $query = $query->get()->toArray();
+
+        return $query;
     }
 }

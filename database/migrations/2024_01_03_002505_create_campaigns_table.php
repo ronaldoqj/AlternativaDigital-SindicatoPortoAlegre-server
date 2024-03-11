@@ -15,16 +15,20 @@ return new class extends Migration
             $table->id();
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
-            $table->unsignedBigInteger('banner_id')->nullable();
-            $table->unsignedBigInteger('image_id')->nullable();
+            $table->unsignedBigInteger('banner_desktop_id')->nullable();
+            $table->unsignedBigInteger('banner_mobile_id')->nullable();
+            $table->unsignedBigInteger('card_image_id')->nullable();
             $table->char('draft', 1)->default('n')->comment('[ n | y ]');
             $table->char('pin_to_home', 1)->default('n')->comment('[ n | y ]');
+            $table->char('show_to_home_banner', 1)->default('n')->comment('[ n | y ]');
             $table->string('link', 512)->nullable();
             $table->string('target', 6)->default('_self')->comment('[ _self | _blank ]');
             $table->timestamps();
 
-            $table->foreign('banner_id')->references('id')->on('files');
-            $table->foreign('image_id')->references('id')->on('files');
+            $table->foreign('banner_desktop_id')->references('id')->on('files');
+            $table->foreign('banner_mobile_id')->references('id')->on('files');
+
+            $table->foreign('card_image_id')->references('id')->on('files');
         });
     }
 

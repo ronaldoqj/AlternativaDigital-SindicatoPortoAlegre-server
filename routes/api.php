@@ -16,10 +16,16 @@ use App\Http\Controllers\AgreementConvention\AgreementConventionController;
 use App\Http\Controllers\CategoryAgreementConvention\CategoryAgreementConventionController;
 use App\Http\Controllers\PublicNotice\PublicNoticeController;
 use App\Http\Controllers\CategoryPublicNotice\CategoryPublicNoticeController;
+use App\Http\Controllers\Publication\PublicationController;
+use App\Http\Controllers\CategoryPublication\CategoryPublicationController;
 use App\Http\Controllers\Site\Search\SearchController;
 use App\Http\Controllers\Site\Unionize\UnionizeController;
 use App\Http\Controllers\Site\Agenda\AgendaController as SiteAgendaController;
 use App\Http\Controllers\Site\Video\VideoController as SiteVideoController;
+use App\Http\Controllers\Site\Campaign\CampaignController as SiteCampaignController;
+use App\Http\Controllers\Site\PublicNotice\PublicNoticeController as SitePublicNoticeController;
+use App\Http\Controllers\Site\Publication\PublicationController as SitePublicationController;
+use App\Http\Controllers\Site\AgreementConvention\AgreementConventionController as SiteAgreementConventionController;
 
 // Site
 use App\Http\Controllers\Site\News\NewsController as SiteNewsController;
@@ -127,6 +133,16 @@ Route::prefix('public-notice')->namespace('PublicNotice')->middleware('auth:api'
     Route::post('/get', [PublicNoticeController::class, 'get']);
 });
 
+Route::prefix('publication')->namespace('Publication')->middleware('auth:api')->group(function ()
+{
+    Route::post('/add', [PublicationController::class, 'add']);
+    Route::post('/list', [PublicationController::class, 'list']);
+    Route::post('/list-categories', [CategoryPublicationController::class, 'list']);
+    Route::post('/update', [PublicationController::class, 'update']);
+    Route::post('/delete', [PublicationController::class, 'delete']);
+    Route::post('/get', [PublicationController::class, 'get']);
+});
+
 Route::prefix('news')->namespace('News')->middleware('auth:api')->group(function ()
 {
     Route::post('/add', [NewsController::class, 'add']);
@@ -163,6 +179,26 @@ Route::prefix('site/agenda')->namespace('Site/Agenda')->group(function ()
 Route::prefix('site/video')->namespace('Site/Video')->group(function ()
 {
     Route::post('/list', [SiteVideoController::class, 'list']);
+});
+
+Route::prefix('site/agreement-convention')->namespace('Site/AgreementConvention')->group(function ()
+{
+    Route::post('/list', [SiteAgreementConventionController::class, 'list']);
+});
+
+Route::prefix('site/public-notice')->namespace('Site/PublicNotice')->group(function ()
+{
+    Route::post('/list', [SitePublicNoticeController::class, 'list']);
+});
+
+Route::prefix('site/publication')->namespace('Site/Publication')->group(function ()
+{
+    Route::post('/list', [SitePublicationController::class, 'list']);
+});
+
+Route::prefix('site/campaign')->namespace('Site/Campaign')->group(function ()
+{
+    Route::post('/list', [SiteCampaignController::class, 'list']);
 });
 
 Route::prefix('site/search')->namespace('Site/Search')->group(function ()

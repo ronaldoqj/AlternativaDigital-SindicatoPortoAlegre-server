@@ -18,14 +18,19 @@ class CampaignController extends Controller
         $entity = new Campaign();
         $draft = $request->input('draft') ?? false;
         $pinToHome = $request->input('pinToHome') ?? false;
+        $showToHomeBanner = $request->input('showToHomeBanner') ?? false;
         $target = $request->input('target') ?? false;
 
         $entity->start_date = $request->input('startDate') ?? null;
         $entity->end_date = $request->input('endDate') ?? null;
-        $entity->banner_id = $request->input('banner')['id'] ?? null;
-        $entity->image_id = $request->input('image')['id'] ?? null;
+
+        $entity->banner_desktop_id = $request->input('bannerDesktop')['id'] ?? null;
+        $entity->banner_mobile_id = $request->input('bannerMobile')['id'] ?? null;
+        $entity->card_image_id = $request->input('cardImage')['id'] ?? null;
+
         $entity->draft = $draft ? 'y' : 'n';
         $entity->pin_to_home = $pinToHome ? 'y': 'n';
+        $entity->show_to_home_banner = $showToHomeBanner ? 'y': 'n';
         $entity->link = $request->input('link') ?? null;
         $entity->target = $target ? '_blank' : '_self';
 
@@ -39,6 +44,7 @@ class CampaignController extends Controller
         $id = $request->input('id');
         $draft = $request->input('draft') ?? false;
         $pinToHome = $request->input('pinToHome') ?? false;
+        $showToHomeBanner = $request->input('showToHomeBanner') ?? false;
         $target = $request->input('target') ?? false;
 
 
@@ -46,10 +52,12 @@ class CampaignController extends Controller
         $entity = $entity->find($id);
         $entity->start_date = $request->input('startDate') ?? null;
         $entity->end_date = $request->input('endDate') ?? null;
-        $entity->banner_id = $request->input('banner')['id'] ?? null;
-        $entity->image_id = $request->input('image')['id'] ?? null;
+        $entity->banner_desktop_id = $request->input('bannerDesktop')['id'] ?? null;
+        $entity->banner_mobile_id = $request->input('bannerMobile')['id'] ?? null;
+        $entity->card_image_id = $request->input('cardImage')['id'] ?? null;
         $entity->draft = $draft ? 'y' : 'n';
         $entity->pin_to_home = $pinToHome ? 'y': 'n';
+        $entity->show_to_home_banner = $showToHomeBanner ? 'y': 'n';
         $entity->link = $request->input('link') ?? null;
         $entity->target = $target ? '_blank' : '_self';
 
@@ -60,7 +68,7 @@ class CampaignController extends Controller
 
     public function list()
     {
-        $entity = Campaign::with('image', 'banner')
+        $entity = Campaign::with('cardImage', 'bannerDesktop', 'bannerMobile')
                         ->orderBy('created_at', 'desc')
                         ->get();
         return $entity;
@@ -72,7 +80,7 @@ class CampaignController extends Controller
 
         $entity = new Campaign();
         $entity = $entity->where('id', $id)
-                         ->with('image', 'banner')
+                         ->with('cardImage', 'bannerDesktop', 'bannerMobile')
                          ->first();
 
         return $entity;

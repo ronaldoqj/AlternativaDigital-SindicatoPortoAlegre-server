@@ -9,14 +9,19 @@ class Campaign extends Model
 {
     use HasFactory;
 
-
-    public function banner()
+// 'bannerDesktop', 'bannerMobile', 'imageNews'
+    public function bannerDesktop()
     {
-        return $this->belongsTo(File::class, 'banner_id');
+        return $this->belongsTo(File::class, 'banner_desktop_id');
     }
 
-    public function image()
+    public function bannerMobile()
     {
-        return $this->belongsTo(File::class, 'image_id');
+        return $this->belongsTo(File::class, 'banner_mobile_id');
+    }
+
+    public function cardImage()
+    {
+        return $this->belongsTo(File::class, 'card_image_id');
     }
 }

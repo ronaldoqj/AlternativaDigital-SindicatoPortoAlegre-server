@@ -14,9 +14,14 @@ class FileController extends Controller
         // $this->middleware('auth:api', ['except' => ['login']]);
     }
 
-    public function list()
+    public function list(Request $request)
     {
+        $categoryId = $request->input('category') ?? null;
         $file = new ModelFile();
+        if ($request->category) {
+            $file = $file->where('category_id', $categoryId);
+        }
+
         $file = $file->orderBy('id', 'desc')->get();
 
         return $file;
@@ -47,6 +52,7 @@ class FileController extends Controller
         if ($file->move(public_path('gallery'), $fileName))
         {
             $file = new ModelFile();
+            $file->category_id = $request->input('category') ?? null;
             $file->path = 'gallery';
             $file->name = $name;
             $file->file_name = $fileName;

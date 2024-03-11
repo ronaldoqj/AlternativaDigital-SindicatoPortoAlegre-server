@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\PublicNotice;
+namespace App\Http\Controllers\Publication;
 
 use App\Http\Controllers\Controller;
-use App\Models\PublicNotice;
+use App\Models\Publication;
 use Illuminate\Http\Request;
 
-class PublicNoticeController extends Controller
+class PublicationController extends Controller
 {
     public function __construct()
     {
@@ -15,7 +15,7 @@ class PublicNoticeController extends Controller
 
     public function add(Request $request)
     {
-        $entity = new PublicNotice();
+        $entity = new Publication();
 
         $entity->file_id = $request->input('file')['id'] ?? null;
         $entity->category_id = $request->input('combobox')['value'] ?? null;
@@ -29,7 +29,7 @@ class PublicNoticeController extends Controller
     {
         $id = $request->input('id');
 
-        $entity = new PublicNotice();
+        $entity = new Publication();
         $entity = $entity->find($id);
         $entity->file_id = $request->input('file')['id'] ?? null;
         $entity->category_id = $request->input('combobox')['value'] ?? null;
@@ -41,7 +41,7 @@ class PublicNoticeController extends Controller
 
     public function list()
     {
-        $entity = PublicNotice::with('file', 'categories')
+        $entity = Publication::with('file', 'categories')
                                      ->orderBy('created_at', 'desc')
                                      ->get();
         return $entity;
@@ -51,7 +51,7 @@ class PublicNoticeController extends Controller
     {
         $id = $request->input('id');
 
-        $entity = new PublicNotice();
+        $entity = new Publication();
         $entity = $entity->where('id', $id)
                          ->with('file', 'category')
                          ->first();
@@ -63,7 +63,7 @@ class PublicNoticeController extends Controller
     {
         $id = $request->input('id');
 
-        $entity = new PublicNotice();
+        $entity = new Publication();
         $entity = $entity->find($id);
         $entity->delete();
 

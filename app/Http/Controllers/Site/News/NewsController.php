@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site\News;
 
 use App\Http\Controllers\Controller;
+use App\Models\Campaign;
 use Illuminate\Http\Request;
 use App\Models\News;
 use stdClass;
@@ -38,21 +39,48 @@ class NewsController extends Controller
 
     public function listHome()
     {
+        /**
+         * Section banner
+         *  Campanha Prioridade
+         *  Noticias Banner
+         * Section Noticia Destaque
+         *  Fixo
+         *  Data de criação decresente
+         * Section Noticia Geral
+         *  Apresentar também as que não apareceram nos destaques
+         *  Fixo
+         *  Data de criação decresente
+         */
         $news = new News();
         $banners = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
                         ->where('position_news', 'banner')
                         ->orderBy('created_at', 'desc')
-                        ->get();
+                        ->get()->toArray();
         $highlights = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
                            ->where('position_news', 'highlights')
                            ->orderBy('created_at', 'desc')
                            ->limit(3)
-                           ->get();
+                           ->get()->toArray();
         $geral = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
                       ->where('position_news', 'geral')
                       ->orderBy('created_at', 'desc')
                       ->limit(6)
-                      ->get();
+                      ->get()->toArray();
+
+        $today = date("Y-m-d H:i:s");
+        $query = new Campaign();
+        $query = $query->with('bannerDesktop');
+        $query = $query->with('bannerMobile');
+        $query = $query->with('cardImage');
+        $query = $query->where('draft', 'n');
+        $query = $query->where('show_to_home_banner', 'y');
+        $query = $query->where('start_date', '<=', $today);
+        $query = $query->where('end_date', '>=', $today);
+        $query = $query->orderBy('pin_to_home', 'DESC')
+                       ->orderBy('created_at', 'DESC');
+        $query = $query->get()->toArray();
+
+
         $return = new stdClass();
         $return->banners = $banners;
         $return->highlights = $highlights;
