@@ -44,7 +44,7 @@ class CampaignController extends Controller
         $id = $request->input('id');
         $draft = $request->input('draft') ?? false;
         $pinToHome = $request->input('pinToHome') ?? false;
-        $showToHomeBanner = $request->input('showToHomeBanner') ?? false;
+        $showToHomeBanner = $request->input('showToHome') ?? false;
         $target = $request->input('target') ?? false;
 
 

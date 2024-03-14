@@ -7,9 +7,12 @@ use App\Models\Campaign;
 use Illuminate\Http\Request;
 use App\Models\News;
 use stdClass;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
+    const LIMIT_BANNERS_HOME = 10;
+
     public function __construct()
     {
         // $this->middleware('auth:api'
@@ -20,8 +23,10 @@ class NewsController extends Controller
         $departmentId = $request->input('departmentId') ?? null;
         $page = $request->input('page');
         $perPage = $request->input('perPage');
+        $notIds = $request->input('notIds') ?? [];
         $news = News::orderBy('created_at', 'desc');
         $news = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews');
+        $news = $news->whereNotIn('id', $notIds);
         // $news = $news->where('position_news', 'geral');
         if ($departmentId) {
             $news = $news->whereHas('departments', function ($query) use ($departmentId) {
@@ -34,7 +39,10 @@ class NewsController extends Controller
         //             // ->orderBy('id', 'asc')
         //             ->simplePaginate($perPage);
 
-        return $news;
+        return [
+            'news' => $news,
+            'ids' => array_column($news, 'id')
+        ];
     }
 
     public function listHome()
@@ -51,18 +59,41 @@ class NewsController extends Controller
          *  Fixo
          *  Data de criação decresente
          */
+        $campaign = new Campaign();
+        $campaign = $campaign->select('*',
+                                      DB::raw('(select "campaign") AS entityType'),
+                                      DB::raw('(select NULL) AS title'))
+                             ->with('bannerDesktop', 'bannerMobile')
+                             ->where('show_to_home_banner', 'y')
+                             ->limit(self::LIMIT_BANNERS_HOME)
+                             ->get()
+                             ->toArray();
         $news = new News();
-        $banners = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
-                        ->where('position_news', 'banner')
-                        ->orderBy('created_at', 'desc')
-                        ->get()->toArray();
+        $remaining = self::LIMIT_BANNERS_HOME - count($campaign);
+        $newsBanners = $news->select('*',
+                                     DB::raw('(select "news") AS entityType'));
+        $newsBanners = $newsBanners->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews');
+        $newsBanners = $newsBanners->where('position_news', 'banner');
+        $newsBanners = $newsBanners->orderBy('created_at', 'desc');
+        $newsBanners = $newsBanners->limit($remaining);
+        $newsBanners = $newsBanners->get()
+                                   ->toArray();
+
+        $notIds = array_column($newsBanners, 'id');
+        $banners = array_merge($campaign, $newsBanners);
+
         $highlights = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
                            ->where('position_news', 'highlights')
+                           ->whereNotIn('id', $notIds)
                            ->orderBy('created_at', 'desc')
                            ->limit(3)
                            ->get()->toArray();
+
+        $notIds = array_merge(array_column($highlights, 'id'), $notIds);
+
         $geral = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
                       ->where('position_news', 'geral')
+                      ->whereNotIn('id', $notIds)
                       ->orderBy('created_at', 'desc')
                       ->limit(6)
                       ->get()->toArray();
@@ -80,10 +111,10 @@ class NewsController extends Controller
                        ->orderBy('created_at', 'DESC');
         $query = $query->get()->toArray();
 
-
         $return = new stdClass();
         $return->banners = $banners;
         $return->highlights = $highlights;
+        $return->allNewsIds = array_merge(array_column($geral, 'id'), $notIds);
         $return->geral = $geral;
 
         return $return;
