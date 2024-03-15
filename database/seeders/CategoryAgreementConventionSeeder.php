@@ -92,6 +92,16 @@ class CategoryAgreementConventionSeeder extends Seeder
         DB::table('category_agreement_conventions')->insert([
             'name' => '2022 - 2024',
             'description' => '2022 - 2024',
+            'created_at' => Carbon::now()->addSecond(16)
+        ]);
+        DB::table('category_agreement_conventions')->insert([
+            'name' => 'Banrisul',
+            'description' => 'Banco do Rio Grande do Sul',
+            'created_at' => Carbon::now()
+        ]);
+        DB::table('category_agreement_conventions')->insert([
+            'name' => 'Fenaban',
+            'description' => 'Banco Fenaban',
             'created_at' => Carbon::now()
         ]);
     }

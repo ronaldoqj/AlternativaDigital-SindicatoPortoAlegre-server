@@ -51,6 +51,7 @@ class UnionizeController extends Controller
         $unionized->name = $request->input('personalData')['name']['value'];
         $unionized->cpf = preg_replace('/[^0-9]/', '', $request->input('personalData')['cpf']['value']);
         $unionized->rg = $request->input('personalData')['rg']['value'];
+        $unionized->issuing_authority = $request->input('personalData')['issuingAuthority']['value'];
         $unionized->birth = $this->convertToValidDate($request->input('personalData')['birth']['value']);
         $unionized->gender = $request->input('personalData')['gender']['value']['value'];
         $unionized->color = $request->input('personalData')['color']['value']['value'];

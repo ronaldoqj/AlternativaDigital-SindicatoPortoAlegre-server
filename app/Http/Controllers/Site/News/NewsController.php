@@ -39,10 +39,7 @@ class NewsController extends Controller
         //             // ->orderBy('id', 'asc')
         //             ->simplePaginate($perPage);
 
-        return [
-            'news' => $news,
-            'ids' => array_column($news, 'id')
-        ];
+        return $news;
     }
 
     public function listHome()

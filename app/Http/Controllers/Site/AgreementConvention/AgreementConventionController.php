@@ -17,7 +17,7 @@ class AgreementConventionController extends Controller
     {
         $query = new AgreementConvention();
         $query = $query->with('file', 'categories');
-        $query = $query->orderBy('category_id', 'DESC')->orderBy('created_at', 'DESC');
+        $query = $query->orderBy('created_at', 'DESC')->orderBy('category_id', 'DESC');
         $query = $query->get()
                        ->toArray();
 
