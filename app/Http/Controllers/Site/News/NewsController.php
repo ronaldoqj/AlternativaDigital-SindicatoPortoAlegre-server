@@ -62,6 +62,7 @@ class NewsController extends Controller
                                       DB::raw('(select NULL) AS title'))
                              ->with('bannerDesktop', 'bannerMobile')
                              ->where('show_to_home_banner', 'y')
+                             ->where('draft', 'n')
                              ->limit(self::LIMIT_BANNERS_HOME)
                              ->get()
                              ->toArray();
@@ -71,6 +72,7 @@ class NewsController extends Controller
                                      DB::raw('(select "news") AS entityType'));
         $newsBanners = $newsBanners->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews');
         $newsBanners = $newsBanners->where('position_news', 'banner');
+        $newsBanners = $newsBanners->where('draft', 'n');
         $newsBanners = $newsBanners->orderBy('created_at', 'desc');
         $newsBanners = $newsBanners->limit($remaining);
         $newsBanners = $newsBanners->get()
@@ -81,6 +83,7 @@ class NewsController extends Controller
 
         $highlights = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
                            ->where('position_news', 'highlights')
+                           ->where('draft', 'n')
                            ->whereNotIn('id', $notIds)
                            ->orderBy('created_at', 'desc')
                            ->limit(3)
@@ -124,6 +127,7 @@ class NewsController extends Controller
         $notNews = News::find($request->input('notNews'));
         $news = News::with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
                     ->where('topper', $notNews->topper)
+                    ->where('draft', 'n')
                     ->whereNotIn('id', [$notNews->id])
                     ->orderBy('created_at', 'desc')
                     ->limit($perPage)
@@ -139,6 +143,7 @@ class NewsController extends Controller
         $departmentId = $request->input('department_id');
         $limit = $request->input('limit');
         $news = News::with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'departments')
+                    ->where('draft', 'n')
                     ->whereHas('departments', function ($query) use ($departmentId) {
                         $query->where('departments.id', $departmentId);
                     })
@@ -154,7 +159,9 @@ class NewsController extends Controller
         $id = $request->input('id');
 
         // $news = News::find($id)->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'departments', 'banks');
-        $news = News::where('id', $id)->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'departments', 'banks')->first();
+        $news = News::where('id', $id)
+                    ->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'departments', 'banks')
+                    ->first();
 
         return $news;
     }

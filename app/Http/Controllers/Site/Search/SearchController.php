@@ -23,6 +23,7 @@ class SearchController extends Controller
         $page = $request->input('page');
         $perPage = $request->input('perPage');
         $news = News::orderBy('created_at', 'desc');
+        $news = $news->where('draft', 'n');
         $news = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews');
 
         if ($departmentId) {
