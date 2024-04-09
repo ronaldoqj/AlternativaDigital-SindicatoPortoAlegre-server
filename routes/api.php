@@ -18,8 +18,9 @@ use App\Http\Controllers\PublicNotice\PublicNoticeController;
 use App\Http\Controllers\CategoryPublicNotice\CategoryPublicNoticeController;
 use App\Http\Controllers\Publication\PublicationController;
 use App\Http\Controllers\CategoryPublication\CategoryPublicationController;
+use App\Http\Controllers\Unionize\UnionizeController;
 use App\Http\Controllers\Site\Search\SearchController;
-use App\Http\Controllers\Site\Unionize\UnionizeController;
+use App\Http\Controllers\Site\Unionize\UnionizeController as SiteUnionizeController;
 use App\Http\Controllers\Site\Agenda\AgendaController as SiteAgendaController;
 use App\Http\Controllers\Site\Video\VideoController as SiteVideoController;
 use App\Http\Controllers\Site\Campaign\CampaignController as SiteCampaignController;
@@ -152,6 +153,11 @@ Route::prefix('news')->namespace('News')->middleware('auth:api')->group(function
     Route::post('/get-news', [NewsController::class, 'getNews']);
 });
 
+Route::prefix('unionize')->namespace('Unionize')->group(function ()
+{
+    Route::post('/list', [UnionizeController::class, 'list']);
+});
+
 Route::prefix('site/news')->namespace('Site/News')->group(function ()
 {
     Route::post('/list', [SiteNewsController::class, 'list']);
@@ -209,10 +215,10 @@ Route::prefix('site/search')->namespace('Site/Search')->group(function ()
 
 Route::prefix('site/unionize')->namespace('Site/Unionize')->group(function ()
 {
-    Route::post('/register', [UnionizeController::class, 'register']);
-    Route::post('/register-pdf-file', [UnionizeController::class, 'registerPdfFile']);
-    Route::post('/get-register-by-cpf', [UnionizeController::class, 'getByCpf']);
-    Route::post('/print', [UnionizeController::class, 'print']);
-    Route::get('/print/{cpf}', [UnionizeController::class, 'print']);
+    Route::post('/register', [SiteUnionizeController::class, 'register']);
+    Route::post('/register-pdf-file', [SiteUnionizeController::class, 'registerPdfFile']);
+    Route::post('/get-register-by-cpf', [SiteUnionizeController::class, 'getByCpf']);
+    Route::post('/print', [SiteUnionizeController::class, 'print']);
+    Route::get('/print/{cpf}', [SiteUnionizeController::class, 'print']);
     // Route::post('/get', [SiteNewsController::class, 'get']);
 });

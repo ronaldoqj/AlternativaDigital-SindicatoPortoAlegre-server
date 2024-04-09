@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Site\Unionize;
+namespace App\Http\Controllers\Unionize;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -22,6 +22,16 @@ class UnionizeController extends Controller
         $data = explode('/', $data);
         $data = "{$data[2]}-{$data[1]}-{$data[0]}";
         return $data;
+    }
+
+    public function list()
+    {
+        $unionized = new Unionized();
+        $findUnionized = $unionized->orderBy('created_at', 'desc')
+                                   ->get()
+                                   ->toArray();
+
+        return $findUnionized;
     }
 
     public function register(Request $request)

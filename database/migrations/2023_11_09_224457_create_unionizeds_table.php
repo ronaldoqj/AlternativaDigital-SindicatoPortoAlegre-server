@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('bank', 40)->nullable();
             $table->string('code_bank', 40)->nullable();
             $table->string('agency', 40)->nullable();
+            $table->string('account', 40)->nullable();
             $table->string('commercial_phone', 30)->nullable();
             $table->string('extension', 30)->nullable();
             $table->char('already_associated', 1)->default('n')->comment('[ n | y ]');
@@ -48,6 +49,7 @@ return new class extends Migration
             $table->string('auth_bank', 40)->nullable();
             $table->string('auth_code_bank', 40)->nullable();
             $table->string('auth_agency', 40)->nullable();
+            $table->string('auth_account', 40)->nullable();
 
             $table->timestamps();
 

@@ -118,7 +118,7 @@ $mappingPortuguesesMonths = array(
                 <div class="title">Dados Comerciais</div>
                 <table width="100%" cellspacing="10">
                     <tr>
-                        <td width="40%">
+                        <td width="25%">
                             <div class="fields">
                                 <div class="label">Banco</div>
                                 <div class="input">{{ $bank }}</div>
@@ -130,10 +130,16 @@ $mappingPortuguesesMonths = array(
                                 <div class="input">{{ $code_bank }}</div>
                             </div>
                         </td>
-                        <td width="35%">
+                        <td width="25%">
                             <div class="fields">
                                 <div class="label">Agência</div>
                                 <div class="input">{{ $agency }}</div>
+                            </div>
+                        </td>
+                        <td width="25%">
+                            <div class="fields">
+                                <div class="label">Conta</div>
+                                <div class="input">{{ $account }}</div>
                             </div>
                         </td>
                     </tr>
@@ -308,13 +314,13 @@ $mappingPortuguesesMonths = array(
                         <td width="33%">
                             <div class="fields">
                                 <div class="label">Bairro</div>
-                                <div class="input">Marechal Rondon</div>
+                                <div class="input">{{ $neighborhood }}</div>
                             </div>
                         </td>
                         <td width="34%">
                             <div class="fields">
                                 <div class="label">Cidade</div>
-                                <div class="input">Canoas</div>
+                                <div class="input">{{ $city }}</div>
                             </div>
                         </td>
                         <td width="33%">
@@ -341,7 +347,7 @@ $mappingPortuguesesMonths = array(
                             <td>
                                 <table width="100%" cellspacing="10">
                                     <tr>
-                                        <td width="40%">
+                                        <td width="25%">
                                             <div class="agree-fields">
                                                 <div class="label">Banco</div>
                                                 <div class="agree-input">{{ $auth_bank }}</div>
@@ -353,10 +359,16 @@ $mappingPortuguesesMonths = array(
                                                 <div class="agree-input">{{ $auth_code_bank }}</div>
                                             </div>
                                         </td>
-                                        <td width="35%">
+                                        <td width="25%">
                                             <div class="agree-fields">
                                                 <div class="label">Agência</div>
                                                 <div class="agree-input">{{ $auth_agency }}</div>
+                                            </div>
+                                        </td>
+                                        <td width="25%">
+                                            <div class="agree-fields">
+                                                <div class="label">Conta</div>
+                                                <div class="agree-input">{{ $auth_account }}</div>
                                             </div>
                                         </td>
                                     </tr>
