@@ -26,6 +26,7 @@ class NewsController extends Controller
         $notIds = $request->input('notIds') ?? [];
         $news = News::orderBy('created_at', 'desc');
         $news = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews');
+        $news = $news->where('draft', 'n');
         $news = $news->whereNotIn('id', $notIds);
         // $news = $news->where('position_news', 'geral');
         if ($departmentId) {
@@ -93,6 +94,7 @@ class NewsController extends Controller
 
         $geral = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews')
                       ->where('position_news', 'geral')
+                      ->where('draft', 'n')
                       ->whereNotIn('id', $notIds)
                       ->orderBy('created_at', 'desc')
                       ->limit(6)
@@ -161,6 +163,7 @@ class NewsController extends Controller
         // $news = News::find($id)->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'departments', 'banks');
         $news = News::where('id', $id)
                     ->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'departments', 'banks')
+                    ->where('draft', 'n')
                     ->first();
 
         return $news;
