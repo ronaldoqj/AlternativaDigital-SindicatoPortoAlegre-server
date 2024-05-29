@@ -96,6 +96,7 @@ class UnionizeController extends Controller
 
         $file = $this->addUnionizeFile($request, $findUnionized->id);
         $findUnionized->unionized_file_id = $file->id;
+        $findUnionized->status = 'completed';
         $findUnionized->save();
 
         return $findUnionized;
@@ -162,8 +163,8 @@ class UnionizeController extends Controller
     public function print(Request $request, string $cpf)
     {
         $unionized = new Unionized();
-        $unionized = $unionized->where('cpf', $cpf)->where('status', 'started')->get()->toArray()[0] ?? null;
-        // $unionized = $unionized->where('cpf', $cpf)->where('status', 'started')->first();
+        // $unionized = $unionized->where('cpf', $cpf)->where('status', 'started')->get()->toArray()[0] ?? null;
+        $unionized = $unionized->where('cpf', $cpf)->get()->toArray()[0] ?? null;
         if (!$unionized) {
             abort(500, 'Not found');
         }

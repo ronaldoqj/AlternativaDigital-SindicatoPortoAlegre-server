@@ -156,6 +156,8 @@ Route::prefix('news')->namespace('News')->middleware('auth:api')->group(function
 Route::prefix('unionize')->namespace('Unionize')->group(function ()
 {
     Route::post('/list', [UnionizeController::class, 'list']);
+    Route::get('/download/assined/{id}', [UnionizeController::class, 'downloadFileAssined']);
+    Route::post('/update-confirmed-status', [UnionizeController::class, 'updateConfirmedStatus']);
 });
 
 Route::prefix('site/news')->namespace('Site/News')->group(function ()

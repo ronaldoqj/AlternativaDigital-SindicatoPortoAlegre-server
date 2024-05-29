@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\News;
 use stdClass;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class NewsController extends Controller
 {
@@ -45,6 +46,41 @@ class NewsController extends Controller
 
     public function listHome()
     {
+
+//         INSERT INTO `users` (`name`, `email`, `profile`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+// ('Martina Pinheiro', 'lais@sindbancarios.org.br', 'normal', NULL, '$2y$10$wuln2pIVb7oHHJ1VHs.7xO0TfeyiVr9sy4Z7hBHU6i3MVmYxA7Hhu', NULL, '2024-04-15 22:40:51', NULL);
+
+//         INSERT INTO `users` (`name`, `email`, `profile`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+// ('Laís Escher', 'celio@sindbancarios.org.br', 'normal', NULL, '$2y$10$EIpEQp1LUJAWbdXu6YDSd.8lByPNGfFQdSU7bMGba9jwtq2ToD3p.', NULL, '2023-12-10 02:55:51', NULL);
+
+        // (51)980222704
+        // DB::table('users')->insert([
+        //     'name' => 'Martina Pinheiro',
+        //     'profile' => 'normal',
+        //     'email' => 'martina@sindbancarios.org.br',
+        //     'password' => Hash::make('MAR01122023#pinheiro'),
+        //     'created_at' => Carbon::now()->addSecond(3)
+        // ]);
+
+        // (51)98402-8358
+        // DB::table('users')->insert([
+        //     'name' => 'Célio Romeu dos Santos',
+        //     'profile' => 'normal',
+        //     'email' => 'celio@sindbancarios.org.br',
+        //     'password' => Hash::make('CEL01122023#romeu'),
+        //     'created_at' => Carbon::now()->addSecond(3)
+        // ]);
+
+        // DB::table('users')->insert([
+        //     'name' => 'Laís Escher',
+        //     'profile' => 'normal',
+        //     'email' => 'lais@sindbancarios.org.br',
+        //     'password' => Hash::make('LA01122023#is'),
+        //     'created_at' => Carbon::now()->addSecond(3)
+        // ]);
+
+        // $var1 = Hash::make('LA01122023#is');
+
         /**
          * Section banner
          *  Campanha Prioridade

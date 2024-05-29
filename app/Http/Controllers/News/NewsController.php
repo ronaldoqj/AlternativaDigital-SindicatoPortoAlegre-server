@@ -119,10 +119,38 @@ class NewsController extends Controller
         return json_encode($news);
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        $news = News::with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'department', 'bank', 'departments', 'banks')->orderBy('created_at', 'desc')->get();
+        $searchWords = $request->input('searchWords') ?? null;
+        $departmentId = $request->input('departmentId') ?? null;
+        $page = $request->input('page');
+        $perPage = $request->input('perPage');
+        $news = News::orderBy('created_at', 'desc');
+        $news = $news->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews');
+        // $news = $news->where('draft', 'n');
+        if ($departmentId) {
+            $news = $news->whereHas('departments', function ($query) use ($departmentId) {
+                $query->where('departments.id', $departmentId);
+            });
+        }
+
+        if (strlen($searchWords)) {
+            $news = $news->where(function ($query) use ($searchWords)
+                    {
+                        $query->where('topper', 'like', "%{$searchWords}%")
+                              ->orWhere('title', 'like', "%{$searchWords}%")
+                              ->orWhere('call', 'like', "%{$searchWords}%")
+                              ->orWhere('text', 'like', "%{$searchWords}%")
+                              ->orWhere('journalist_font', 'like', "%{$searchWords}%")
+                              ->orWhere('tags', 'like', "%{$searchWords}%");
+                    });
+        }
+
+        $news = $news->paginate($perPage);
         return $news;
+
+        // $news = News::with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'department', 'bank', 'departments', 'banks')->orderBy('created_at', 'desc')->get();
+        // return $news;
     }
 
     public function getNews(Request $request)
