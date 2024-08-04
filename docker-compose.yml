@@ -105,6 +105,9 @@ services:
         environment:
             - PMA_HOST=mysql
             - PMA_PORT=3306
+            - UPLOAD_LIMIT=400M
+            - PHP_UPLOAD_MAX_FILESIZE=400M
+            - PHP_POST_MAX_SIZE=400M
         networks:
             - sail
         ports:

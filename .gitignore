@@ -5,6 +5,9 @@
 /public/storage
 /public/temporary
 /public/gallery
+/public/new
+/public/old
+/public/unionize
 /storage/*.key
 /vendor
 .env

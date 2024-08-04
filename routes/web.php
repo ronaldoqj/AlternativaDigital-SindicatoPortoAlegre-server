@@ -15,11 +15,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('unionize');
-    $files = new File();
-    $files = $files->all();
+    // return view('unionize');
+    // $files = new File();
+    // $files = $files->all();
 
-    return $files;
+    // return $files;
+
+    return 'Página inicial';
 });
 
 Route::get('/test', function () {
