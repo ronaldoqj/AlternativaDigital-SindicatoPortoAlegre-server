@@ -57,6 +57,13 @@ $mappingPortuguesesMonths = array(
                 height: 2960px;
                 padding: 20px 120px;
             }
+            .first-title {
+                font-size: 1.2em;
+                text-align: center;
+                color: #E34548;
+                font-weight: bold;
+                margin: 40px 0 60px;
+            }
             .title {
                 font-size: 1.2em;
                 text-align: center;
@@ -82,6 +89,10 @@ $mappingPortuguesesMonths = array(
 
             .line {
                 display: flex;
+            }
+
+            .union-registration {
+                margin-top: 40px;
             }
 
             .section-agree {
@@ -114,8 +125,20 @@ $mappingPortuguesesMonths = array(
             <img src="{{public_path('assets')}}/images/print-logo.png" width="601" height="281">
         </section>
         <section class="content">
+            <section class="union-registration">
+                <table width="25%" cellspacing="0">
+                    <tr>
+                        <td width="25%">
+                            <div class="agree-fields">
+                                <div class="label">Matrícula Sindical</div>
+                                <div class="agree-input">&nbsp;</div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </section>
             <section class="comercial-section">
-                <div class="title">Dados Comerciais</div>
+                <div class="first-title">Dados Comerciais</div>
                 <table width="100%" cellspacing="10">
                     <tr>
                         <td width="25%">
@@ -138,8 +161,8 @@ $mappingPortuguesesMonths = array(
                         </td>
                         <td width="25%">
                             <div class="fields">
-                                <div class="label">Conta</div>
-                                <div class="input">{{ $account }}</div>
+                                <div class="label">Data de admissão</div>
+                                <div class="input">{{ $admission_date }}</div>
                             </div>
                         </td>
                     </tr>
@@ -148,7 +171,7 @@ $mappingPortuguesesMonths = array(
                     <tr>
                         <td width="40%">
                             <div class="fields">
-                                <div class="label">Telefone Comercial</div>
+                                <div class="label">Telefone comercial</div>
                                 <div class="input">{{ $commercial_phone }}</div>
                             </div>
                         </td>
@@ -221,7 +244,7 @@ $mappingPortuguesesMonths = array(
                         </td>
                         <td width="33%">
                             <div class="fields">
-                                <div class="label">Orgão Emissor</div>
+                                <div class="label">Orgão emissor</div>
                                 <div class="input">{{ $issuing_authority }}</div>
                             </div>
                         </td>
@@ -291,7 +314,7 @@ $mappingPortuguesesMonths = array(
                     <tr>
                         <td width="50%">
                             <div class="fields">
-                                <div class="label">Endereço Residencial</div>
+                                <div class="label">Endereço residencial</div>
                                 <div class="input">{{ $home_address }}</div>
                             </div>
                         </td>

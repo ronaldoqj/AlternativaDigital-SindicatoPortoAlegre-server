@@ -40,7 +40,7 @@ class UnionizeController extends Controller
         $unionized->bank = $request->input('commercialData')['bank']['value'];
         $unionized->code_bank = $request->input('commercialData')['codeBank']['value'];
         $unionized->agency = $request->input('commercialData')['agency']['value'];
-        $unionized->account = $request->input('commercialData')['account']['value'];
+        $unionized->admission_date = $this->convertToValidDate($request->input('commercialData')['admissionDate']['value']);
         $unionized->commercial_phone = preg_replace('/[^0-9]/', '', $request->input('commercialData')['phone']['value']);
 
         $unionized->extension = $request->input('commercialData')['extension']['value'];
@@ -175,6 +175,11 @@ class UnionizeController extends Controller
         $cpf = $unionized['cpf'];
         if (strlen($cpf) >= 11)
             $unionized['cpf'] = "{$cpf[0]}{$cpf[1]}{$cpf[2]}.{$cpf[3]}{$cpf[4]}{$cpf[5]}.{$cpf[6]}{$cpf[7]}{$cpf[8]}.{$cpf[9]}{$cpf[10]}";
+        $admission_date = $unionized['admission_date'];
+        if (strlen($admission_date) >= 10) {
+            $admission_date = explode('-', $admission_date);
+            $unionized['admission_date'] = "{$admission_date[2]}/{$admission_date[1]}/{$admission_date[0]}";
+        }
         $birth = $unionized['birth'];
         if (strlen($birth) >= 10)
             $birth = explode('-', $birth);

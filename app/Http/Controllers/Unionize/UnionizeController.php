@@ -17,11 +17,24 @@ class UnionizeController extends Controller
     public function list()
     {
         $unionized = new Unionized();
-        $findUnionized = $unionized->orderBy('created_at', 'desc')
-                                   ->get()
-                                   ->toArray();
+        $findUnionizedStarted = $unionized->where('status', 'started')
+                                          ->orderBy('created_at', 'desc')
+                                          ->get()
+                                          ->toArray();
+        $findUnionizedCompleted = $unionized->where('status', 'completed')
+                                          ->orderBy('created_at', 'desc')
+                                          ->get()
+                                          ->toArray();
+        $findUnionizedConfirmed = $unionized->where('status', 'confirmed')
+                                          ->orderBy('created_at', 'desc')
+                                          ->get()
+                                          ->toArray();
 
-        return $findUnionized;
+        return [
+            'listStarted' => $findUnionizedStarted,
+            'listCompleted' => $findUnionizedCompleted,
+            'listConfirmed' => $findUnionizedConfirmed
+        ];
     }
 
     public function downloadFileAssined(Request $request, string $id)
