@@ -100,6 +100,7 @@ class NewsController extends Controller
                              ->with('bannerDesktop', 'bannerMobile')
                              ->where('show_to_home_banner', 'y')
                              ->where('draft', 'n')
+                             ->orderBy('pin_to_home', 'DESC')
                              ->limit(self::LIMIT_BANNERS_HOME)
                              ->get()
                              ->toArray();
