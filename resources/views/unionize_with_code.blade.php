@@ -25,129 +25,119 @@
         <script src="{{$pdf_mjs}}" type="module"></script>
 
         <script type="module">
-        // If absolute URL from the remote server is provided, configure the CORS
-        // header on that server.
-        var url = '/temporary/test.pdf';
+            // If absolute URL from the remote server is provided, configure the CORS
+            // header on that server.
+            var url = '/temporary/test.pdf';
 
-        // Loaded via <script> tag, create shortcut to access PDF.js exports.
-        var { pdfjsLib } = globalThis;
+            // Loaded via <script> tag, create shortcut to access PDF.js exports.
+            var { pdfjsLib } = globalThis;
 
-        // The workerSrc property shall be specified.
-        // pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.mjs';
-        pdfjsLib.GlobalWorkerOptions.workerSrc = '{{$pdf_worker_mjs}}';
+            // The workerSrc property shall be specified.
+            // pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.mjs';
+            pdfjsLib.GlobalWorkerOptions.workerSrc = '{{$pdf_worker_mjs}}';
 
-        // Asynchronous download of PDF
-        var loadingTask = pdfjsLib.getDocument(url);
-        loadingTask.promise.then(function(pdf) {
-            console.log('PDF loaded');
+            // Asynchronous download of PDF
+            var loadingTask = pdfjsLib.getDocument(url);
+            loadingTask.promise.then(function(pdf) {
+                console.log('PDF loaded');
 
-            // Fetch the first page
-            var pageNumber = 1;
-            pdf.getPage(pageNumber).then(function(page) {
-            console.log('Page loaded');
+                // Fetch the first page
+                var pageNumber = 1;
+                pdf.getPage(pageNumber).then(function(page) {
+                console.log('Page loaded');
 
-            var scale = 1.5;
-            var viewport = page.getViewport({scale: scale});
+                var scale = 1.5;
+                var viewport = page.getViewport({scale: scale});
 
-            // Variavel adicionada por mim, para personalizar margin extra a mais
-            var extraMargimFooter = 150;
+                // Variavel adicionada por mim, para personalizar margin extra a mais
+                var extraMargimFooter = 150
 
-            // Prepare canvas using PDF page dimensions
-            var canvas = document.getElementById('the-canvas');
-            var context = canvas.getContext('2d');
+                // Prepare canvas using PDF page dimensions
+                var canvas = document.getElementById('the-canvas');
+                var context = canvas.getContext('2d');
 
-            canvas.height = viewport.height + extraMargimFooter;
-            canvas.width = viewport.width;
-
-
+                canvas.height = viewport.height + extraMargimFooter
+                canvas.width = viewport.width;
 
 
+                // // backgroun vermelho e margins
+                // context.fillStyle = '#7E181A'
+                // context.fillRect(0, 0, canvas.width, canvas.height)
+                // const largura = canvas.width
+                // const altura = canvas.height + extraMargimFooter
+                // const margem = 10
+                // // Movendo o ponto de origem para dentro do canvas, criando margens
+                // context.translate(margem, margem + extraMargimFooter)
+                // // Redimensionando o canvas "interno" para ajustar às margens
+                // context.scale((largura - 2 * margem) / largura, (altura - 2 * margem) / altura)
+                context = setBackgroundColorAndMargins(canvas, context, extraMargimFooter)
 
 
-
-
-            // backgroun vermelho e margins
-            context.fillStyle = '#7E181A';
-            context.fillRect(0, 0, canvas.width, canvas.height);
-
-            const largura = canvas.width;
-            const altura = canvas.height + extraMargimFooter;
-            const margem = 10;
-
-            // Movendo o ponto de origem para dentro do canvas, criando margens
-            context.translate(margem, margem + extraMargimFooter);
-
-            // Redimensionando o canvas "interno" para ajustar às margens
-            context.scale((largura - 2 * margem) / largura, (altura - 2 * margem) / altura);
-
-
-
-
-
-
-
-
-
-            // Render PDF page into canvas context
-            var renderContext = {
-                canvasContext: context,
-                viewport: viewport
-            };
-            var renderTask = page.render(renderContext);
-            renderTask.promise.then(function () {
-                console.log('Page rendered');
-                putElements()
-                downloadImage()
+                // Render PDF page into canvas context
+                var renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                var renderTask = page.render(renderContext);
+                renderTask.promise.then(function () {
+                    console.log('Page rendered');
+                    putElements()
+                    downloadImage()
+                });
+                });
+            }, function (reason) {
+                // PDF loading error
+                console.error(reason);
             });
-            });
-        }, function (reason) {
-            // PDF loading error
-            console.error(reason);
-        });
 
 
+            function setBackgroundColorAndMargins(canvas, context, extraMargimFooter) {
+                // backgroun vermelho e margins
+                context.fillStyle = '#7E181A'
+                context.fillRect(0, 0, canvas.width, canvas.height)
 
+                const largura = canvas.width
+                const altura = canvas.height + extraMargimFooter
+                const margem = 10
 
+                // Movendo o ponto de origem para dentro do canvas, criando margens
+                context.translate(margem, margem + extraMargimFooter)
 
+                // Redimensionando o canvas "interno" para ajustar às margens
+                context.scale((largura - 2 * margem) / largura, (altura - 2 * margem) / altura)
 
-
-
-        // Função para desenhar um retângulo
-
-
-
-        function putElements() {
-            // adicionando conteúdo no topo
-            const canvas = document.getElementById('the-canvas');
-            const context = canvas.getContext('2d');
-            context.translate(0, -50);
-
-            // fild codigo
-            putField(canvas, context)
-
-            // Linha Rodapé
-            putBorderFooter(canvas, context);
-        }
-
-        function putField(canvas, context) {
-            const field = {
-                width: canvas.width / 3,
-                height: 35,
-                color: 'white',
-                radius: 5 // Set the corner radius to 5 pixels
+                return context
             }
-            context.fillStyle = field.color;
-            context.fillRect(field.width, -50, field.width, field.height);
 
-            return context;
-        }
+            function putElements() {
+                // adicionando conteúdo no topo
+                const canvas = document.getElementById('the-canvas')
+                const context = canvas.getContext('2d')
+                context.translate(0, -50)
 
-        function putBorderFooter(canvas, context) {
-            context.fillStyle = '#7E181A';
-            context.fillRect(0, canvas.height - 103, canvas.width + 1, 10);
-        }
+                // fild codigo
+                putField(canvas, context)
+                // Linha Rodapé
+                putBorderFooter(canvas, context)
+            }
 
+            function putField(canvas, context) {
+                const field = {
+                    width: canvas.width / 3,
+                    height: 35,
+                    color: 'white',
+                    radius: 5 // Set the corner radius to 5 pixels
+                }
+                context.fillStyle = field.color
+                context.fillRect(field.width, -50, field.width, field.height)
 
+                return context
+            }
+
+            function putBorderFooter(canvas, context) {
+                context.fillStyle = '#7E181A';
+                context.fillRect(0, canvas.height - 103, canvas.width + 1, 10);
+            }
         </script>
 
         <canvas id="the-canvas"></canvas>
