@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Sindicato dos bancários de Porto Alegre</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -16,35 +16,35 @@
     </head>
     <body class="antialiased">
         <?php
-            $pdf_mjs = asset('assets/library/javascript/PDF/pdf.mjs');
-            $pdf_worker_mjs = asset('assets/library/javascript/PDF/pdf.worker.mjs');
+            $pdf_mjs = asset('assets/library/javascript/PDF/pdf.js');
+            $pdf_worker_mjs = asset('assets/library/javascript/PDF/pdf.worker.js');
         ?>
 
 
-        {{-- <script src="//mozilla.github.io/pdf.js/build/pdf.mjs" type="module"></script> --}}
+        {{-- <script src="//mozilla.github.io/pdf.js/build/pdf.js" type="module"></script> --}}
         <script src="{{$pdf_mjs}}" type="module"></script>
 
         <script type="module">
             // If absolute URL from the remote server is provided, configure the CORS
             // header on that server.
-            var url = '/temporary/test.pdf';
+            var url = '{{$pdfPath}}';
 
             // Loaded via <script> tag, create shortcut to access PDF.js exports.
             var { pdfjsLib } = globalThis;
 
             // The workerSrc property shall be specified.
-            // pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.mjs';
+            // pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
             pdfjsLib.GlobalWorkerOptions.workerSrc = '{{$pdf_worker_mjs}}';
 
             // Asynchronous download of PDF
             var loadingTask = pdfjsLib.getDocument(url);
             loadingTask.promise.then(function(pdf) {
-                console.log('PDF loaded');
+                // console.log('PDF loaded');
 
                 // Fetch the first page
                 var pageNumber = 1;
                 pdf.getPage(pageNumber).then(function(page) {
-                console.log('Page loaded');
+                // console.log('Page loaded');
 
                 var scale = 1.5;
                 var viewport = page.getViewport({scale: scale});
@@ -80,7 +80,7 @@
                 };
                 var renderTask = page.render(renderContext);
                 renderTask.promise.then(function () {
-                    console.log('Page rendered');
+                    // console.log('Page rendered');
                     putElements()
                     downloadImage()
                 });
@@ -116,28 +116,72 @@
                 context.translate(0, -50)
 
                 // fild codigo
-                putField(canvas, context)
+                const text = '{{$code}}'
+                putField(canvas, context, text)
                 // Linha Rodapé
                 putBorderFooter(canvas, context)
             }
 
-            function putField(canvas, context) {
-                const field = {
-                    width: canvas.width / 3,
-                    height: 35,
-                    color: 'white',
-                    radius: 5 // Set the corner radius to 5 pixels
-                }
-                context.fillStyle = field.color
-                context.fillRect(field.width, -50, field.width, field.height)
+            function putField(canvas, context, text) {
+                let width = 300
+                let height = 25
+                let x = canvas.width / 2 - width / 2
+                let y = -35
+                let radius = 14
+                let backgroundColor = 'white'
 
-                return context
+                let ctx = context
+
+                ctx.beginPath();
+                ctx.fillStyle = backgroundColor
+                ctx.moveTo(x, y + radius);
+                ctx.arcTo(x, y, x + radius, y, radius);
+                ctx.lineTo(x + width - radius, y);
+                ctx.arcTo(x + width, y, x + width, y + radius, radius);
+                ctx.lineTo(x + width, y + height - radius);
+                ctx.arcTo(x + width, y + height, x + width - radius, y + height, radius);
+                ctx.lineTo(x + radius, y + height);
+                ctx.arcTo(x, y + height, x, y + height - radius, radius);
+
+                ctx.closePath();
+                ctx.fill();
+
+                // Add Text Inside field
+                ctx.font = "15px Arial";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = "black";
+                ctx.fillText(text, x + width / 2, y + height / 2);
+
+                // Add Label above field
+                let label = "Matrícula Sindical:"
+                ctx.fillStyle = "white";
+                ctx.fillText(label, x + width / 2, y - 24 + height / 2);
+
+                // Add Legend bellow field and on top of document
+                let legenda = "Documento original assinado por .gov"
+                ctx.font = "12px Arial";
+                ctx.textAlign = "left";
+                ctx.fillText(legenda, 0, y + 75);
             }
 
             function putBorderFooter(canvas, context) {
                 context.fillStyle = '#7E181A';
                 context.fillRect(0, canvas.height - 103, canvas.width + 1, 10);
             }
+
+            // function putField(canvas, context) {
+            //     const field = {
+            //         width: canvas.width / 3,
+            //         height: 35,
+            //         color: 'white',
+            //         radius: 5 // Set the corner radius to 5 pixels
+            //     }
+            //     context.fillStyle = field.color
+            //     context.fillRect(field.width, -50, field.width, field.height)
+
+            //     return context
+            // }
         </script>
 
         <canvas id="the-canvas"></canvas>
@@ -151,12 +195,13 @@
                 // Criar um link temporário
                 const link = document.createElement('a');
                 link.href = dataURL;
-                link.download = 'minha_imagem.png'; // Nome do arquivo a ser salvo
+                link.download = '{{$fileName}}'; // Nome do arquivo a ser salvo
 
                 // Simular um clique no link para iniciar o download
-                // document.body.appendChild(link);
-                // link.click();
-                // document.body.removeChild(link);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                window.close();
             }
         </script>
     </body>

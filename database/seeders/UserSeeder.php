@@ -113,5 +113,33 @@ class UserSeeder extends Seeder
             'password' => Hash::make('LA01122023#is'),
             'created_at' => Carbon::now()->addSecond(3)
         ]);
+
+
+        // (51)98023-5674 | Gerente administrativo
+        DB::table('users')->insert([
+            'name' => 'Fabio Girotto Caldas',
+            'profile' => 'normal',
+            'email' => 'fabio@sindbancarios.org.br',
+            'password' => Hash::make('fgc9574#cl'),
+            'created_at' => Carbon::now()->addSecond(3)
+        ]);
+
+        // (51)99675-3592 | Aux. Administrativo
+        DB::table('users')->insert([
+            'name' => 'Andressa Mendes da Silva',
+            'profile' => 'normal',
+            'email' => 'andressa@sindbancarios.org.br',
+            'password' => Hash::make('ams7536#sv'),
+            'created_at' => Carbon::now()->addSecond(3)
+        ]);
+
+        // (51)99806-3829 | Aux. Administrativo
+        DB::table('users')->insert([
+            'name' => 'Lisandra Salgado Alves',
+            'profile' => 'normal',
+            'email' => 'lisandra@sindbancarios.org.br',
+            'password' => Hash::make('lsa6542#av'),
+            'created_at' => Carbon::now()->addSecond(3)
+        ]);
     }
 }

@@ -157,6 +157,7 @@ Route::prefix('unionize')->namespace('Unionize')->group(function ()
 {
     Route::post('/list', [UnionizeController::class, 'list']);
     Route::get('/download/assined/{id}', [UnionizeController::class, 'downloadFileAssined']);
+    Route::get('/download/assined-union-enrolment/{id}', [UnionizeController::class, 'downloadFileAssinedWithUnionEnrolment']);
     Route::post('/update-confirmed-status', [UnionizeController::class, 'updateConfirmedStatus']);
 });
 

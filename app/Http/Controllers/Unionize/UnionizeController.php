@@ -59,11 +59,40 @@ class UnionizeController extends Controller
         return response()->download($file_path, $file_name);
     }
 
+    public function downloadFileAssinedWithUnionEnrolment(Request $request, string $id)
+    {
+        // return view('unionize_with_code', ['code' => '12313121', 'pdfPath' => '/temporary/test.pdf']);
+        $unionized = new Unionized();
+        $unionized = $unionized->find($id);
+
+        if (!$unionized) {
+            abort(500, 'Not found');
+        }
+
+        $unionizedFile = new UnionizedFile();
+        $unionizedFile = $unionizedFile->find($unionized->unionized_file_id);
+
+        if (!$unionizedFile) {
+            abort(500, 'Not found');
+        }
+
+        // $file_path = public_path("{$unionizedFile->path}/{$unionizedFile->file_name}");
+        $file_path = "/{$unionizedFile->path}/{$unionizedFile->file_name}";
+        // $file_name = "{$id}_{$unionizedFile->name}.{$unionizedFile->extension}";
+        $file_name = "{$id}_{$unionizedFile->name}_with_code.png";
+        $codeUnionEnrolment = $unionized->union_enrolment_id ?? '';
+
+        return view('unionize_with_code', ['code' => $codeUnionEnrolment, 'pdfPath' => $file_path, 'fileName' => $file_name]);
+        return response()->download($file_path, $file_name);
+    }
+
     public function updateConfirmedStatus(Request $request) {
         $unionized = new Unionized();
         $unionized = $unionized->find($request->input('id'));
+        $status = $request->input('status') ?? null;
 
-        $unionized->status = 'confirmed';
+        $unionized->status = $status === 'started' ? 'completed' : 'confirmed';
+        $unionized->union_enrolment_id = $request->input('unionEnrolment') ?? null;
         return $unionized->save();
     }
 }
