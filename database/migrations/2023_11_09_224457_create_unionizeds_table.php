@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('unionizeds', function (Blueprint $table) {
             $table->id();
 
+            $table->integer('union_enrolment_id')->nullable();
             $table->string('status', 20)->default('started')->comment('[ started (initial fill) | completed (attached file) | confirmed (finished)]');
             $table->unsignedBigInteger('unionized_file_id')->nullable();
             $table->string('bank', 40)->nullable();

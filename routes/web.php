@@ -2,6 +2,7 @@
 
 use App\Models\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +25,30 @@ Route::get('/', function () {
     return 'Página inicial';
 });
 
-Route::get('/test', function () {
-    $files = new File();
-    $files = $files->all();
+Route::get('/convert', function () {
+    // $path = public_path('/temporary');
+    // $source = $path . '/test.pdf';
+    // $source = $path . '/form.pdf';
+    // $target = $path . '/testConverted.png';
+    // // dump(file_exists($source));
 
-    return $files;
+    // return view('unionize_with_code', ['code' => '12313121', 'pdfPath' => '/temporary/test.pdf']);
+    return 'Página Convert';
+});
+
+Route::get('/test', function () {
+    // dump('Fabio Girotto Caldas');
+    // dump('password: ' . Hash::make('fgc9574#cl'));
+    // dump('-------------------------------------');
+    // dump('Andressa Mendes da Silva');
+    // dump('password: ' . Hash::make('ams7536#sv'));
+    // dump('-------------------------------------');
+    // dump('Lisandra Salgado Alves');
+    // dump('password: ' . Hash::make('lsa6542#av'));
+    // dump('-------------------------------------');
+    // $files = new File();
+    // $files = $files->all();
+
+    // return $files;
+    return 'Página Test';
 });
