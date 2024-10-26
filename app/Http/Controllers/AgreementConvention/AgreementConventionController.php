@@ -19,6 +19,7 @@ class AgreementConventionController extends Controller
 
         $entity->file_id = $request->input('file')['id'] ?? null;
         $entity->category_id = $request->input('combobox')['value'] ?? null;
+        $entity->year = $request->input('year') ?? null;
 
         $entity->save();
 
@@ -33,6 +34,7 @@ class AgreementConventionController extends Controller
         $entity = $entity->find($id);
         $entity->file_id = $request->input('file')['id'] ?? null;
         $entity->category_id = $request->input('combobox')['value'] ?? null;
+        $entity->year = $request->input('year') ?? null;
 
         $entity->save();
 

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('file_id')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
+            $table->year('year')->nullable();
             $table->timestamps();
 
             $table->foreign('file_id')->references('id')->on('files');
