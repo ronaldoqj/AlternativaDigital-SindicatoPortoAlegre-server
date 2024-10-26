@@ -50,10 +50,15 @@ use App\Http\Controllers\Site\News\NewsController as SiteNewsController;
 Route::prefix('auth')->namespace('Auth')->group(function ()
 {
     Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/get-user', [AuthController::class, 'me']);
+    // Route::post('/get-user', [AuthController::class, 'me']);
     // Route::post('/login', function (Request $request) {
     //     return $request;
     // });
+});
+
+Route::prefix('auth')->namespace('Auth')->middleware('auth:api')->group(function ()
+{
+    Route::post('/get-user', [AuthController::class, 'me']);
 });
 
 Route::prefix('user')->namespace('User')->middleware('auth:api')->group(function ()
@@ -153,12 +158,18 @@ Route::prefix('news')->namespace('News')->middleware('auth:api')->group(function
     Route::post('/get-news', [NewsController::class, 'getNews']);
 });
 
-Route::prefix('unionize')->namespace('Unionize')->group(function ()
+Route::prefix('unionize')->namespace('Unionize')->middleware('auth:api')->group(function ()
 {
     Route::post('/list', [UnionizeController::class, 'list']);
+    // Route::get('/download/assined/{id}', [UnionizeController::class, 'downloadFileAssined']);
+    // Route::get('/download/assined-union-enrolment/{id}', [UnionizeController::class, 'downloadFileAssinedWithUnionEnrolment']);
+    Route::post('/update-confirmed-status', [UnionizeController::class, 'updateConfirmedStatus']);
+});
+
+Route::prefix('unionize')->namespace('Unionize')->group(function ()
+{
     Route::get('/download/assined/{id}', [UnionizeController::class, 'downloadFileAssined']);
     Route::get('/download/assined-union-enrolment/{id}', [UnionizeController::class, 'downloadFileAssinedWithUnionEnrolment']);
-    Route::post('/update-confirmed-status', [UnionizeController::class, 'updateConfirmedStatus']);
 });
 
 Route::prefix('site/news')->namespace('Site/News')->group(function ()
