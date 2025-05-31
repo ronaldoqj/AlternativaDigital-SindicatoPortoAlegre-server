@@ -31,6 +31,8 @@ use App\Http\Controllers\Site\PublicNotice\PublicNoticeController as SitePublicN
 use App\Http\Controllers\Site\Publication\PublicationController as SitePublicationController;
 use App\Http\Controllers\Site\GenericPage\GenericPageController as SiteGenericPageController;
 use App\Http\Controllers\Site\AgreementConvention\AgreementConventionController as SiteAgreementConventionController;
+use App\Http\Controllers\Site\Insurance\InsuranceController as SiteInsuranceController;
+use App\Http\Controllers\Site\CategoryInsurance\CategoryInsuranceController as SiteCategoryInsuranceController;
 
 // Site
 use App\Http\Controllers\Site\News\NewsController as SiteNewsController;
@@ -143,7 +145,7 @@ Route::prefix('agreement-convention')->namespace('AgreementConvention')->middlew
     Route::post('/get', [AgreementConventionController::class, 'get']);
 });
 
-Route::prefix('insurance')->namespace('AgreementConvention')->middleware('auth:api')->group(function ()
+Route::prefix('insurance')->namespace('Insurance')->middleware('auth:api')->group(function ()
 {
     Route::post('/add', [InsuranceController::class, 'add']);
     Route::post('/list', [InsuranceController::class, 'list']);
@@ -265,4 +267,11 @@ Route::prefix('site/unionize')->namespace('Site/Unionize')->group(function ()
     Route::post('/print', [SiteUnionizeController::class, 'print']);
     Route::get('/print/{cpf}', [SiteUnionizeController::class, 'print']);
     // Route::post('/get', [SiteNewsController::class, 'get']);
+});
+
+Route::prefix('site/insurance')->namespace('site/Insurance')->middleware('auth:api')->group(function ()
+{
+    Route::post('/list', [SiteInsuranceController::class, 'list']);
+    Route::post('/list-categories', [SiteCategoryInsuranceController::class, 'list']);
+    Route::post('/get', [SiteInsuranceController::class, 'get']);
 });
