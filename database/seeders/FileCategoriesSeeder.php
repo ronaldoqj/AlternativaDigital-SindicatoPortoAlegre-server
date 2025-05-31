@@ -53,20 +53,32 @@ class FileCategoriesSeeder extends Seeder
         DB::table('file_categories')->insert([
             'id' => 7,
             'name' => 'NewsTextEditor',
-            'description' => 'Categorias dos editais',
+            'description' => 'Categorias dos editais para o componente editor de texto',
             'created_at' => Carbon::now()->addSecond(6)
         ]);
         DB::table('file_categories')->insert([
             'id' => 8,
             'name' => 'AgendaTextEditor',
-            'description' => 'Categorias dos editais',
+            'description' => 'Categorias dos editais para o componente editor de texto',
             'created_at' => Carbon::now()->addSecond(7)
         ]);
         DB::table('file_categories')->insert([
-            'id' => 7,
+            'id' => 9,
             'name' => 'Publicações',
-            'description' => 'Categorias dos publicações',
+            'description' => 'Categorias das publicações',
             'created_at' => Carbon::now()->addSecond(8)
+        ]);
+        DB::table('file_categories')->insert([
+            'id' => 10,
+            'name' => 'Departamentos',
+            'description' => 'Categorias dos departamentos',
+            'created_at' => Carbon::now()->addSecond(9)
+        ]);
+        DB::table('file_categories')->insert([
+            'id' => 11,
+            'name' => 'DepartamentTextEditor',
+            'description' => 'Categorias dos departamentos para o componente editor de texto',
+            'created_at' => Carbon::now()->addSecond(10)
         ]);
     }
 }

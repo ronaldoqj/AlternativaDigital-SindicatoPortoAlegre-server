@@ -46,9 +46,22 @@ Route::get('/test', function () {
     // dump('Lisandra Salgado Alves');
     // dump('password: ' . Hash::make('lsa6542#av'));
     // dump('-------------------------------------');
+
+    // dump('Dijair Brilhantes Maria');
+    // dump('password: ' . Hash::make('dij9574#mr'));
+    // dump('-------------------------------------');
+    // dump('Sérgio Hoff');
+    // dump('password: ' . Hash::make('sg7536#hf'));
+    // dump('-------------------------------------');
+
+
+    // dump('Luciano Fetzner Barcellos');
+    // dump('password: ' . Hash::make('lf9853#pr'));
+    // dump('-------------------------------------');
+
     // $files = new File();
     // $files = $files->all();
-
     // return $files;
+
     return 'Página Test';
 });

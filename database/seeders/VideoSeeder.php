@@ -16,7 +16,7 @@ class VideoSeeder extends Seeder
     {
         DB::table('videos')->insert([
             'id' => 1,
-            'image_id' => 25,
+            'image_id' => 11,
             'video' => 'https://youtu.be/DLTpOEA57Ac?si=a2NECKikp7mS6hEJ',
             'draft' => 'n',
             'pin_to_home' => 'n',
@@ -26,7 +26,7 @@ class VideoSeeder extends Seeder
         ]);
         DB::table('videos')->insert([
             'id' => 2,
-            'image_id' => 26,
+            'image_id' => 12,
             'video' => 'https://youtu.be/DLTpOEA57Ac?si=a2NECKikp7mS6hEJ',
             'draft' => 'n',
             'pin_to_home' => 'n',
@@ -36,7 +36,7 @@ class VideoSeeder extends Seeder
         ]);
         DB::table('videos')->insert([
             'id' => 3,
-            'image_id' => 27,
+            'image_id' => 13,
             'video' => 'https://youtu.be/uzpxrx7NZBA?si=OEWkCV2ph7CMhOLt',
             'draft' => 'n',
             'pin_to_home' => 'n',
@@ -46,7 +46,7 @@ class VideoSeeder extends Seeder
         ]);
         DB::table('videos')->insert([
             'id' => 4,
-            'image_id' => 28,
+            'image_id' => 14,
             'video' => 'https://youtu.be/sXJGoXetz34?si=f8aXRyi8FnulckYH',
             'draft' => 'n',
             'pin_to_home' => 'n',
@@ -56,7 +56,7 @@ class VideoSeeder extends Seeder
         ]);
         DB::table('videos')->insert([
             'id' => 5,
-            'image_id' => 29,
+            'image_id' => 15,
             'video' => 'https://youtu.be/fGm6YzBrxiI?si=KSLbQG6H7iGPUytb',
             'draft' => 'n',
             'pin_to_home' => 'n',
@@ -66,7 +66,7 @@ class VideoSeeder extends Seeder
         ]);
         DB::table('videos')->insert([
             'id' => 6,
-            'image_id' => 30,
+            'image_id' => 16,
             'video' => 'https://youtu.be/kzKXywQ5fpw?si=MQIWf3bErDS81hw7',
             'draft' => 'n',
             'pin_to_home' => 'n',
@@ -76,7 +76,7 @@ class VideoSeeder extends Seeder
         ]);
         DB::table('videos')->insert([
             'id' => 7,
-            'image_id' => 31,
+            'image_id' => 17,
             'video' => 'https://youtu.be/aiQdLP2mBJE?si=Cbhum5huBGJBMUiH',
             'draft' => 'n',
             'pin_to_home' => 'n',
@@ -86,7 +86,7 @@ class VideoSeeder extends Seeder
         ]);
         DB::table('videos')->insert([
             'id' => 8,
-            'image_id' => 32,
+            'image_id' => 18,
             'video' => 'https://youtu.be/iNSa8oq4vYQ?si=_vlUsmXtgeKhPmKD',
             'draft' => 'n',
             'pin_to_home' => 'n',
@@ -96,7 +96,7 @@ class VideoSeeder extends Seeder
         ]);
         DB::table('videos')->insert([
             'id' => 9,
-            'image_id' => 33,
+            'image_id' => 19,
             'video' => 'https://youtu.be/TijClV4uHIk?si=v_9tOo1GKkXK-nk6',
             'draft' => 'n',
             'pin_to_home' => 'n',
