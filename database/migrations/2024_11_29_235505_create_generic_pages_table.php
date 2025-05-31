@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departments', function (Blueprint $table) {
+        Schema::create('generic_pages', function (Blueprint $table) {
             $table->id();
-
-            $table->string('name', 140);
-            $table->string('description', 240)->nullable();
+            $table->string('group_page', 50)->nullable();
+            $table->string('link', 240)->nullable();
+            $table->string('page', 140)->comment('[ Name of page ]');
+            $table->string('title', 240)->nullable();
             $table->unsignedBigInteger('image_id')->nullable();
-            $table->text('content')->nullable();
-
+            $table->text('text')->nullable();
             $table->timestamps();
 
             $table->foreign('image_id')->references('id')->on('files');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departments');
+        Schema::dropIfExists('generic_pages');
     }
 };

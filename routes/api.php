@@ -7,6 +7,7 @@ use App\Http\Controllers\Bank\BankController;
 use App\Http\Controllers\Page\PageController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Department\DepartmentController;
+use App\Http\Controllers\GenericPage\GenericPageController;
 use App\Http\Controllers\File\FileController;
 use App\Http\Controllers\News\NewsController;
 use App\Http\Controllers\Agenda\AgendaController;
@@ -14,6 +15,8 @@ use App\Http\Controllers\Campaign\CampaignController;
 use App\Http\Controllers\Video\VideoController;
 use App\Http\Controllers\AgreementConvention\AgreementConventionController;
 use App\Http\Controllers\CategoryAgreementConvention\CategoryAgreementConventionController;
+use App\Http\Controllers\Insurance\InsuranceController;
+use App\Http\Controllers\CategoryInsurance\CategoryInsuranceController;
 use App\Http\Controllers\PublicNotice\PublicNoticeController;
 use App\Http\Controllers\CategoryPublicNotice\CategoryPublicNoticeController;
 use App\Http\Controllers\Publication\PublicationController;
@@ -26,6 +29,7 @@ use App\Http\Controllers\Site\Video\VideoController as SiteVideoController;
 use App\Http\Controllers\Site\Campaign\CampaignController as SiteCampaignController;
 use App\Http\Controllers\Site\PublicNotice\PublicNoticeController as SitePublicNoticeController;
 use App\Http\Controllers\Site\Publication\PublicationController as SitePublicationController;
+use App\Http\Controllers\Site\GenericPage\GenericPageController as SiteGenericPageController;
 use App\Http\Controllers\Site\AgreementConvention\AgreementConventionController as SiteAgreementConventionController;
 
 // Site
@@ -72,6 +76,16 @@ Route::prefix('user')->namespace('User')->middleware('auth:api')->group(function
 Route::prefix('department')->namespace('Department')->middleware('auth:api')->group(function ()
 {
     Route::post('/list', [DepartmentController::class, 'list']);
+    Route::get('/list-cards', [DepartmentController::class, 'listCards']);
+    Route::post('/get', [DepartmentController::class, 'get']);
+});
+
+Route::prefix('generic-page')->namespace('Department')->middleware('auth:api')->group(function ()
+{
+    Route::post('/list', [GenericPageController::class, 'list']);
+    Route::post('/update', [GenericPageController::class, 'update']);
+    Route::post('/list-cards', [GenericPageController::class, 'listCards']);
+    Route::post('/get', [GenericPageController::class, 'get']);
 });
 
 Route::prefix('bank')->namespace('Bank')->middleware('auth:api')->group(function ()
@@ -127,6 +141,16 @@ Route::prefix('agreement-convention')->namespace('AgreementConvention')->middlew
     Route::post('/update', [AgreementConventionController::class, 'update']);
     Route::post('/delete', [AgreementConventionController::class, 'delete']);
     Route::post('/get', [AgreementConventionController::class, 'get']);
+});
+
+Route::prefix('insurance')->namespace('AgreementConvention')->middleware('auth:api')->group(function ()
+{
+    Route::post('/add', [InsuranceController::class, 'add']);
+    Route::post('/list', [InsuranceController::class, 'list']);
+    Route::post('/list-categories', [CategoryInsuranceController::class, 'list']);
+    Route::post('/update', [InsuranceController::class, 'update']);
+    Route::post('/delete', [InsuranceController::class, 'delete']);
+    Route::post('/get', [InsuranceController::class, 'get']);
 });
 
 Route::prefix('public-notice')->namespace('PublicNotice')->middleware('auth:api')->group(function ()
@@ -214,6 +238,12 @@ Route::prefix('site/public-notice')->namespace('Site/PublicNotice')->group(funct
 Route::prefix('site/publication')->namespace('Site/Publication')->group(function ()
 {
     Route::post('/list', [SitePublicationController::class, 'list']);
+});
+
+Route::prefix('site/generic-page')->namespace('Site/GenericPage')->group(function ()
+{
+    Route::post('/list', [SiteGenericPageController::class, 'list']);
+    Route::post('/get', [SiteGenericPageController::class, 'get']);
 });
 
 Route::prefix('site/campaign')->namespace('Site/Campaign')->group(function ()

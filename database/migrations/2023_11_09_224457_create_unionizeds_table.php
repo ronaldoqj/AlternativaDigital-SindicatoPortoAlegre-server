@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('bank', 40)->nullable();
             $table->string('code_bank', 40)->nullable();
             $table->string('agency', 40)->nullable();
+            $table->date('admission_date')->nullable();
             $table->string('account', 40)->nullable();
             $table->string('commercial_phone', 30)->nullable();
             $table->string('extension', 30)->nullable();

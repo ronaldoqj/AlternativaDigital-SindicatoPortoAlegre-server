@@ -57,7 +57,7 @@ class UserSeeder extends Seeder
             'profile' => 'normal',
             'email' => 'alinedolphs@gmail.com',
             'password' => Hash::make('ALINE01122023#aline'),
-            'created_at' => Carbon::now()->addSecond(3)
+            'created_at' => Carbon::now()->addSecond(4)
         ]);
 
         // (51)99920-6484
@@ -66,7 +66,7 @@ class UserSeeder extends Seeder
             'profile' => 'normal',
             'email' => 'amanda@sindbancarios.org.br',
             'password' => Hash::make('AMANDA01122023#amanda'),
-            'created_at' => Carbon::now()->addSecond(3)
+            'created_at' => Carbon::now()->addSecond(5)
         ]);
 
         // (51)99689-7645
@@ -75,7 +75,7 @@ class UserSeeder extends Seeder
             'profile' => 'normal',
             'email' => 'camila@sindbancarios.org.br',
             'password' => Hash::make('CAMILA01122023#camila'),
-            'created_at' => Carbon::now()->addSecond(3)
+            'created_at' => Carbon::now()->addSecond(6)
         ]);
 
         // (51)99806-3829
@@ -84,7 +84,7 @@ class UserSeeder extends Seeder
             'profile' => 'normal',
             'email' => 'lais@sindbancarios.org.br',
             'password' => Hash::make('LA01122023#is'),
-            'created_at' => Carbon::now()->addSecond(3)
+            'created_at' => Carbon::now()->addSecond(7)
         ]);
 
         // (51)980222704
@@ -93,7 +93,7 @@ class UserSeeder extends Seeder
             'profile' => 'normal',
             'email' => 'martina@sindbancarios.org.br',
             'password' => Hash::make('MAR01122023#pinheiro'),
-            'created_at' => Carbon::now()->addSecond(3)
+            'created_at' => Carbon::now()->addSecond(8)
         ]);
 
         // (51)98402-8358
@@ -102,18 +102,8 @@ class UserSeeder extends Seeder
             'profile' => 'normal',
             'email' => 'celio@sindbancarios.org.br',
             'password' => Hash::make('CEL01122023#romeu'),
-            'created_at' => Carbon::now()->addSecond(3)
+            'created_at' => Carbon::now()->addSecond(9)
         ]);
-
-        // (51)99806-3829
-        DB::table('users')->insert([
-            'name' => 'Laís Escher',
-            'profile' => 'normal',
-            'email' => 'lais@sindbancarios.org.br',
-            'password' => Hash::make('LA01122023#is'),
-            'created_at' => Carbon::now()->addSecond(3)
-        ]);
-
 
         // (51)98023-5674 | Gerente administrativo
         DB::table('users')->insert([
@@ -121,7 +111,7 @@ class UserSeeder extends Seeder
             'profile' => 'normal',
             'email' => 'fabio@sindbancarios.org.br',
             'password' => Hash::make('fgc9574#cl'),
-            'created_at' => Carbon::now()->addSecond(3)
+            'created_at' => Carbon::now()->addSecond(11)
         ]);
 
         // (51)99675-3592 | Aux. Administrativo
@@ -130,7 +120,7 @@ class UserSeeder extends Seeder
             'profile' => 'normal',
             'email' => 'andressa@sindbancarios.org.br',
             'password' => Hash::make('ams7536#sv'),
-            'created_at' => Carbon::now()->addSecond(3)
+            'created_at' => Carbon::now()->addSecond(12)
         ]);
 
         // (51)99806-3829 | Aux. Administrativo
@@ -139,7 +129,39 @@ class UserSeeder extends Seeder
             'profile' => 'normal',
             'email' => 'lisandra@sindbancarios.org.br',
             'password' => Hash::make('lsa6542#av'),
-            'created_at' => Carbon::now()->addSecond(3)
+            'created_at' => Carbon::now()->addSecond(13)
+        ]);
+
+
+
+
+        // (51)99291 3385 | Jornalista
+        DB::table('users')->insert([
+            'name' => 'Dijair Brilhantes Maria',
+            'profile' => 'normal',
+            'email' => 'dijairbrilhantes@gmail.com',
+            'password' => Hash::make('dij9574#mr'),
+            'created_at' => Carbon::now()->addSecond(14)
+        ]);
+        // (51)98224 2724 | Dir. Comunicação
+        DB::table('users')->insert([
+            'name' => 'Sérgio Hoff',
+            'profile' => 'normal',
+            'email' => 'sergio@sindbancarios.org.br',
+            'password' => Hash::make('sg7536#hf'),
+            'created_at' => Carbon::now()->addSecond(15)
+        ]);
+
+
+
+
+        // (51) 99591 4933 | Presidente
+        DB::table('users')->insert([
+            'name' => 'Luciano Fetzner Barcellos',
+            'profile' => 'normal',
+            'email' => 'luciano@sindbancarios.org.br',
+            'password' => Hash::make('lf9853#pr'),
+            'created_at' => Carbon::now()->addSecond(16)
         ]);
     }
 }

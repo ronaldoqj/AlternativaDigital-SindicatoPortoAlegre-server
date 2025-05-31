@@ -33,5 +33,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CategoryPublicationSeeder::class);
         $this->call(VideoSeeder::class);
         $this->call(PageVideoSeeder::class);
+        $this->call(GenericPagesSeeder::class);
+        $this->call(CategoryInsuranceSeeder::class);
     }
 }
