@@ -269,9 +269,8 @@ Route::prefix('site/unionize')->namespace('Site/Unionize')->group(function ()
     // Route::post('/get', [SiteNewsController::class, 'get']);
 });
 
-Route::prefix('site/insurance')->namespace('site/Insurance')->middleware('auth:api')->group(function ()
+Route::prefix('site/insurance')->namespace('site/Insurance')->group(function ()
 {
     Route::post('/list', [SiteInsuranceController::class, 'list']);
-    Route::post('/list-categories', [SiteCategoryInsuranceController::class, 'list']);
-    Route::post('/get', [SiteInsuranceController::class, 'get']);
+    Route::post('/list-categories', [SiteCategoryInsuranceController::class, 'listCategories']);
 });
