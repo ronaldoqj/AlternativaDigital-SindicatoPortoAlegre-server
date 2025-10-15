@@ -132,9 +132,6 @@ class UserSeeder extends Seeder
             'created_at' => Carbon::now()->addSecond(13)
         ]);
 
-
-
-
         // (51)99291 3385 | Jornalista
         DB::table('users')->insert([
             'name' => 'Dijair Brilhantes Maria',
@@ -152,9 +149,6 @@ class UserSeeder extends Seeder
             'created_at' => Carbon::now()->addSecond(15)
         ]);
 
-
-
-
         // (51) 99591 4933 | Presidente
         DB::table('users')->insert([
             'name' => 'Luciano Fetzner Barcellos',
@@ -162,6 +156,15 @@ class UserSeeder extends Seeder
             'email' => 'luciano@sindbancarios.org.br',
             'password' => Hash::make('lf9853#pr'),
             'created_at' => Carbon::now()->addSecond(16)
+        ]);
+
+        // (51) 99999 9999
+        DB::table('users')->insert([
+            'name' => 'Daniele Brito',
+            'profile' => 'normal',
+            'email' => 'daniele@sindbancarios.org.br',
+            'password' => Hash::make('db9157#bt'),
+            'created_at' => Carbon::now()->addSecond(17)
         ]);
     }
 }

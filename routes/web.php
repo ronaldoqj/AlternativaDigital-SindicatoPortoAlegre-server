@@ -54,9 +54,12 @@ Route::get('/test', function () {
     // dump('password: ' . Hash::make('sg7536#hf'));
     // dump('-------------------------------------');
 
-
     // dump('Luciano Fetzner Barcellos');
     // dump('password: ' . Hash::make('lf9853#pr'));
+    // dump('-------------------------------------');
+
+    // dump('Daniele Brito');
+    // dump('password: ' . Hash::make('db9157#bt'));
     // dump('-------------------------------------');
 
     // $files = new File();
