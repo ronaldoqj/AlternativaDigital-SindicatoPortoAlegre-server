@@ -62,6 +62,10 @@ Route::get('/test', function () {
     // dump('password: ' . Hash::make('db9157#bt'));
     // dump('-------------------------------------');
 
+    // dump('Guilherme Daroit');
+    // dump('password: ' . Hash::make('gd9157#it'));
+    // dump('-------------------------------------');
+
     // $files = new File();
     // $files = $files->all();
     // return $files;

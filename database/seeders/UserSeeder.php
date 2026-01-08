@@ -166,5 +166,14 @@ class UserSeeder extends Seeder
             'password' => Hash::make('db9157#bt'),
             'created_at' => Carbon::now()->addSecond(17)
         ]);
+
+        // (51) 88888 8888
+        DB::table('users')->insert([
+            'name' => 'Guilherme Daroit',
+            'profile' => 'normal',
+            'email' => 'daroit@sindbancarios.org.br',
+            'password' => Hash::make('gd9157#it'),
+            'created_at' => Carbon::now()->addSecond(18)
+        ]);
     }
 }
