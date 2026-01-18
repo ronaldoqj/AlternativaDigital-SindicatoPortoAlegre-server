@@ -64,3 +64,22 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Install
+
+```bash
+# First, you need to create the .env file based on the example.
+# Second, you need to create the APP_KEY and JWT_SECRET.
+#
+# Put this line bellow on file ".basrc" to run only "sail up" to run application
+#   $ alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'
+#
+# You don't need install PHP and Componser, you need only run the commands bellow:
+# You must have docker installed
+sudo docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php83-composer:latest \
+    composer install --ignore-platform-reqs
+```
