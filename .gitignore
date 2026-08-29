@@ -22,3 +22,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Local database dumps
+/docker/mysql/initdb.d/*
+!/docker/mysql/initdb.d/20-sindbancarios.sql.example

@@ -83,3 +83,39 @@ sudo docker run --rm \
     laravelsail/php83-composer:latest \
     composer install --ignore-platform-reqs
 ```
+
+## Banco de dados local
+
+O dump de desenvolvimento fica em
+`docker/mysql/initdb.d/20-sindbancarios.sql`. O Docker Compose monta esse arquivo
+em `/docker-entrypoint-initdb.d`, diretório de inicialização padrão da imagem
+oficial do MySQL.
+
+Os dumps reais não são versionados. O repositório mantém apenas o arquivo vazio
+`docker/mysql/initdb.d/20-sindbancarios.sql.example` para documentar o nome e o
+local esperados. Depois de clonar o projeto, prepare o arquivo local:
+
+```bash
+cp docker/mysql/initdb.d/20-sindbancarios.sql.example \
+    docker/mysql/initdb.d/20-sindbancarios.sql
+```
+
+Substitua o conteúdo de `20-sindbancarios.sql` pelo dump que deve alimentar o
+ambiente. Esse arquivo permanece somente na máquina do desenvolvedor por estar
+configurado no `.gitignore`.
+
+Os scripts desse diretório são executados em ordem alfabética somente quando um
+volume MySQL vazio é criado. Para iniciar o ambiente com uma nova importação:
+
+```bash
+sail up -d
+```
+
+Para encerrar o ambiente, remover os volumes e garantir uma nova importação na
+próxima inicialização:
+
+```bash
+sail down -v --remove-orphans
+```
+
+Use `sail down` sem `-v` quando quiser preservar os dados locais.
