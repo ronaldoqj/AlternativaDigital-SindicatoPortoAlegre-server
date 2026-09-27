@@ -22,6 +22,8 @@ use App\Http\Controllers\CategoryPublicNotice\CategoryPublicNoticeController;
 use App\Http\Controllers\Publication\PublicationController;
 use App\Http\Controllers\CategoryPublication\CategoryPublicationController;
 use App\Http\Controllers\Unionize\UnionizeController;
+use App\Http\Controllers\Director\DirectorController;
+use App\Http\Controllers\DirectorCategory\DirectorCategoryController;
 use App\Http\Controllers\Site\Search\SearchController;
 use App\Http\Controllers\Site\Unionize\UnionizeController as SiteUnionizeController;
 use App\Http\Controllers\Site\Agenda\AgendaController as SiteAgendaController;
@@ -33,6 +35,7 @@ use App\Http\Controllers\Site\GenericPage\GenericPageController as SiteGenericPa
 use App\Http\Controllers\Site\AgreementConvention\AgreementConventionController as SiteAgreementConventionController;
 use App\Http\Controllers\Site\Insurance\InsuranceController as SiteInsuranceController;
 use App\Http\Controllers\Site\CategoryInsurance\CategoryInsuranceController as SiteCategoryInsuranceController;
+use App\Http\Controllers\Site\Director\DirectorController as SiteDirectorController;
 
 // Site
 use App\Http\Controllers\Site\News\NewsController as SiteNewsController;
@@ -93,6 +96,27 @@ Route::prefix('generic-page')->namespace('Department')->middleware('auth:api')->
 Route::prefix('bank')->namespace('Bank')->middleware('auth:api')->group(function ()
 {
     Route::post('/list', [BankController::class, 'list']);
+    Route::post('/manage-list', [BankController::class, 'manageList']);
+    Route::post('/add', [BankController::class, 'add']);
+    Route::post('/update', [BankController::class, 'update']);
+    Route::post('/delete', [BankController::class, 'delete']);
+});
+
+Route::prefix('director')->namespace('Director')->middleware('auth:api')->group(function ()
+{
+    Route::post('/list', [DirectorController::class, 'list']);
+    Route::post('/get', [DirectorController::class, 'get']);
+    Route::post('/add', [DirectorController::class, 'add']);
+    Route::post('/update', [DirectorController::class, 'update']);
+    Route::post('/delete', [DirectorController::class, 'delete']);
+});
+
+Route::prefix('director-category')->namespace('DirectorCategory')->middleware('auth:api')->group(function ()
+{
+    Route::post('/list', [DirectorCategoryController::class, 'list']);
+    Route::post('/add', [DirectorCategoryController::class, 'add']);
+    Route::post('/update', [DirectorCategoryController::class, 'update']);
+    Route::post('/delete', [DirectorCategoryController::class, 'delete']);
 });
 
 Route::prefix('page')->namespace('Page')->middleware('auth:api')->group(function ()
@@ -212,6 +236,11 @@ Route::prefix('site/news')->namespace('Site/News')->group(function ()
 
     //     return $files;
     // });
+});
+
+Route::prefix('site/director')->namespace('Site/Director')->group(function ()
+{
+    Route::get('/list', [SiteDirectorController::class, 'list']);
 });
 
 Route::prefix('site/agenda')->namespace('Site/Agenda')->group(function ()
