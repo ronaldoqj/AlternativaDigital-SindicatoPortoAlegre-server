@@ -16,15 +16,24 @@ class FileController extends Controller
 
     public function list(Request $request)
     {
-        $categoryId = $request->input('category') ?? null;
-        $file = new ModelFile();
-        if ($request->category) {
-            $file = $file->where('category_id', $categoryId);
+        $categoryId = $request->input('category');
+        $searchWords = $request->input('searchWords');
+        $perPage = min(max((int) $request->input('perPage', 12), 1), 48);
+        $file = ModelFile::query();
+
+        if ($categoryId) {
+            $file->where('category_id', $categoryId);
         }
 
-        $file = $file->orderBy('id', 'desc')->get();
+        if ($searchWords) {
+            $file->where(function ($query) use ($searchWords) {
+                $query->where('name', 'like', "%{$searchWords}%")
+                      ->orWhere('file_name', 'like', "%{$searchWords}%")
+                      ->orWhere('description', 'like', "%{$searchWords}%");
+            });
+        }
 
-        return $file;
+        return $file->orderBy('id', 'desc')->paginate($perPage);
     }
 
     public function add(Request $request)
