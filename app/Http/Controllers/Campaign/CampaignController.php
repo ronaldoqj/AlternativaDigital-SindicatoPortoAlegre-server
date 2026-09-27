@@ -66,12 +66,25 @@ class CampaignController extends Controller
         return json_encode($entity);
     }
 
-    public function list()
+    public function list(Request $request)
     {
+        $searchWords = $request->input('searchWords');
+        $perPage = $request->input('perPage', 12);
+
         $entity = Campaign::with('cardImage', 'bannerDesktop', 'bannerMobile')
-                        ->orderBy('created_at', 'desc')
-                        ->get();
-        return $entity;
+                          ->orderBy('created_at', 'desc');
+
+        if ($searchWords) {
+            $entity->where(function ($query) use ($searchWords) {
+                $query->where('link', 'like', "%{$searchWords}%")
+                      ->orWhereHas('cardImage', function ($fileQuery) use ($searchWords) {
+                          $fileQuery->where('name', 'like', "%{$searchWords}%")
+                                    ->orWhere('file_name', 'like', "%{$searchWords}%");
+                      });
+            });
+        }
+
+        return $entity->paginate($perPage);
     }
 
     public function get(Request $request)

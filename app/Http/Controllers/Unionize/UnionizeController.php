@@ -14,27 +14,36 @@ class UnionizeController extends Controller
         // $this->middleware('auth:api'
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        $unionized = new Unionized();
-        $findUnionizedStarted = $unionized->where('status', 'started')
-                                          ->orderBy('created_at', 'desc')
-                                          ->get()
-                                          ->toArray();
-        $findUnionizedCompleted = $unionized->where('status', 'completed')
-                                          ->orderBy('created_at', 'desc')
-                                          ->get()
-                                          ->toArray();
-        $findUnionizedConfirmed = $unionized->where('status', 'confirmed')
-                                          ->orderBy('created_at', 'desc')
-                                          ->get()
-                                          ->toArray();
+        $searchWords = $request->input('searchWords');
+        $perPage = $request->input('perPage', 12);
 
         return [
-            'listStarted' => $findUnionizedStarted,
-            'listCompleted' => $findUnionizedCompleted,
-            'listConfirmed' => $findUnionizedConfirmed
+            'listStarted' => $this->listByStatus('started', $searchWords, $perPage, $request->input('startedPage', 1)),
+            'listCompleted' => $this->listByStatus('completed', $searchWords, $perPage, $request->input('completedPage', 1)),
+            'listConfirmed' => $this->listByStatus('confirmed', $searchWords, $perPage, $request->input('confirmedPage', 1))
         ];
+    }
+
+    private function listByStatus(string $status, ?string $searchWords, int $perPage, int $page)
+    {
+        $unionized = Unionized::where('status', $status)
+                              ->orderBy('created_at', 'desc');
+
+        if ($searchWords) {
+            $unionized->where(function ($query) use ($searchWords) {
+                $query->where('name', 'like', "%{$searchWords}%")
+                      ->orWhere('cpf', 'like', "%{$searchWords}%")
+                      ->orWhere('rg', 'like', "%{$searchWords}%")
+                      ->orWhere('email', 'like', "%{$searchWords}%")
+                      ->orWhere('commercial_email', 'like', "%{$searchWords}%")
+                      ->orWhere('bank', 'like', "%{$searchWords}%")
+                      ->orWhere('registration', 'like', "%{$searchWords}%");
+            });
+        }
+
+        return $unionized->paginate($perPage, ['*'], "{$status}Page", $page);
     }
 
     public function downloadFileAssined(Request $request, string $id)

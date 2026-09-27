@@ -70,12 +70,23 @@ class VideoController extends Controller
         return json_encode($entity);
     }
 
-    public function list()
+    public function list(Request $request)
     {
+        $searchWords = $request->input('searchWords');
+        $perPage = $request->input('perPage', 12);
+
         $entity = Video::with('image', 'pages')
-                        ->orderBy('created_at', 'desc')
-                        ->get();
-        return $entity;
+                       ->orderBy('created_at', 'desc');
+
+        if ($searchWords) {
+            $entity->where(function ($query) use ($searchWords) {
+                $query->where('title', 'like', "%{$searchWords}%")
+                      ->orWhere('call', 'like', "%{$searchWords}%")
+                      ->orWhere('video', 'like', "%{$searchWords}%");
+            });
+        }
+
+        return $entity->paginate($perPage);
     }
 
     public function get(Request $request)

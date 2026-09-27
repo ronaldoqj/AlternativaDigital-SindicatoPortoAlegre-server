@@ -96,12 +96,24 @@ class AgendaController extends Controller
         return json_encode($agenda);
     }
 
-    public function list()
+    public function list(Request $request)
     {
+        $searchWords = $request->input('searchWords');
+        $perPage = $request->input('perPage', 12);
+
         $agenda = Agenda::with('image', 'cardImage', 'scheduledDates')
-                        ->orderBy('created_at', 'desc')
-                        ->get();
-        return $agenda;
+                        ->orderBy('created_at', 'desc');
+
+        if ($searchWords) {
+            $agenda->where(function ($query) use ($searchWords) {
+                $query->where('topper', 'like', "%{$searchWords}%")
+                      ->orWhere('title', 'like', "%{$searchWords}%")
+                      ->orWhere('call', 'like', "%{$searchWords}%")
+                      ->orWhere('text', 'like', "%{$searchWords}%");
+            });
+        }
+
+        return $agenda->paginate($perPage);
     }
 
     public function getAgenda(Request $request)

@@ -39,12 +39,26 @@ class PublicationController extends Controller
         return json_encode($entity);
     }
 
-    public function list()
+    public function list(Request $request)
     {
+        $searchWords = $request->input('searchWords');
+        $perPage = $request->input('perPage', 12);
+
         $entity = Publication::with('file', 'categories')
-                                     ->orderBy('created_at', 'desc')
-                                     ->get();
-        return $entity;
+                             ->orderBy('created_at', 'desc');
+
+        if ($searchWords) {
+            $entity->where(function ($query) use ($searchWords) {
+                $query->whereHas('file', function ($fileQuery) use ($searchWords) {
+                    $fileQuery->where('name', 'like', "%{$searchWords}%")
+                              ->orWhere('file_name', 'like', "%{$searchWords}%");
+                })->orWhereHas('categories', function ($categoryQuery) use ($searchWords) {
+                    $categoryQuery->where('name', 'like', "%{$searchWords}%");
+                });
+            });
+        }
+
+        return $entity->paginate($perPage);
     }
 
     public function get(Request $request)
