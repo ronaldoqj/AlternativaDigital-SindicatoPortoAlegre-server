@@ -199,7 +199,7 @@ class NewsController extends Controller
 
         // $news = News::find($id)->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'departments', 'banks');
         $news = News::where('id', $id)
-                    ->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'departments', 'banks')
+                    ->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'departments', 'banks', 'galleries.items.image')
                     ->where('draft', 'n')
                     ->first();
 
