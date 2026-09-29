@@ -49,4 +49,9 @@ class News extends Model
     {
         return $this->belongsToMany(Bank::class)->using(BankNews::class)->withPivot('created_at');
     }
+
+    public function galleries(): BelongsToMany
+    {
+        return $this->belongsToMany(Gallery::class)->withTimestamps();
+    }
 }

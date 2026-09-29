@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Gallery extends Model
 {
@@ -14,5 +15,10 @@ class Gallery extends Model
     public function items()
     {
         return $this->hasMany(GalleryItem::class)->orderBy('display_order')->orderBy('id');
+    }
+
+    public function news(): BelongsToMany
+    {
+        return $this->belongsToMany(News::class)->withTimestamps();
     }
 }

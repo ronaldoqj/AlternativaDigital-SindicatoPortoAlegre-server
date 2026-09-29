@@ -65,6 +65,11 @@ class NewsController extends Controller
 
     public function update(Request $request)
     {
+        $request->validate([
+            'gallery' => 'nullable|array',
+            'gallery.*.value' => 'required|integer|distinct|exists:galleries,id',
+        ]);
+
         $id = $request->input('id');
         $draft = $request->input('draft') ?? false;
 
@@ -116,6 +121,9 @@ class NewsController extends Controller
             $news->banks()->attach($banksIDs);
         }
 
+        $galleryIDs = Arr::pluck($request->input('gallery') ?? [], 'value');
+        $news->galleries()->sync($galleryIDs);
+
         return json_encode($news);
     }
 
@@ -158,7 +166,7 @@ class NewsController extends Controller
         $id = $request->input('id');
 
         $news = new News();
-        $news = $news->where('id', $id)->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'department', 'bank', 'departments', 'banks')->first();
+        $news = $news->where('id', $id)->with('bannerDesktop', 'bannerMobile', 'imageNews', 'audioNews', 'department', 'bank', 'departments', 'banks', 'galleries')->first();
 
         return $news;
     }
