@@ -24,6 +24,7 @@ use App\Http\Controllers\CategoryPublication\CategoryPublicationController;
 use App\Http\Controllers\Unionize\UnionizeController;
 use App\Http\Controllers\Director\DirectorController;
 use App\Http\Controllers\DirectorCategory\DirectorCategoryController;
+use App\Http\Controllers\Gallery\GalleryController;
 use App\Http\Controllers\Site\Search\SearchController;
 use App\Http\Controllers\Site\Unionize\UnionizeController as SiteUnionizeController;
 use App\Http\Controllers\Site\Agenda\AgendaController as SiteAgendaController;
@@ -117,6 +118,16 @@ Route::prefix('director-category')->namespace('DirectorCategory')->middleware('a
     Route::post('/add', [DirectorCategoryController::class, 'add']);
     Route::post('/update', [DirectorCategoryController::class, 'update']);
     Route::post('/delete', [DirectorCategoryController::class, 'delete']);
+});
+
+Route::prefix('gallery')->namespace('Gallery')->middleware('auth:api')->group(function ()
+{
+    Route::post('/list', [GalleryController::class, 'list']);
+    Route::post('/get', [GalleryController::class, 'get']);
+    Route::post('/items', [GalleryController::class, 'items']);
+    Route::post('/add', [GalleryController::class, 'add']);
+    Route::post('/update', [GalleryController::class, 'update']);
+    Route::post('/delete', [GalleryController::class, 'delete']);
 });
 
 Route::prefix('page')->namespace('Page')->middleware('auth:api')->group(function ()
