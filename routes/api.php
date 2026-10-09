@@ -74,9 +74,10 @@ Route::prefix('auth')->namespace('Auth')->middleware('auth:api')->group(function
 Route::prefix('user')->namespace('User')->middleware('auth:api')->group(function ()
 {
     Route::post('/list', [UserController::class, 'list']);
-    // Route::post('/login', function (Request $request) {
-    //     return $request;
-    // });
+    Route::post('/get', [UserController::class, 'get']);
+    Route::post('/add', [UserController::class, 'add']);
+    Route::post('/update', [UserController::class, 'update']);
+    Route::post('/delete', [UserController::class, 'delete']);
 });
 
 Route::prefix('department')->namespace('Department')->middleware('auth:api')->group(function ()
